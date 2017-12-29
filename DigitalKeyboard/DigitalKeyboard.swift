@@ -47,7 +47,7 @@ open class DigitalKeyboard: UIInputView, UITextFieldDelegate {
     fileprivate lazy var titles = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"]
     
     /// 样式
-    var style = Style.idcard {
+    public var style = Style.idcard {
         didSet {
             setDigitButton(style)
         }
