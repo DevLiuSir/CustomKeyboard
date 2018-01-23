@@ -36,7 +36,7 @@ $ gem install cocoapods
 ```
 
 
-Just add the `DigitalKeyboard` folder to your project.
+Just add the `Customkeyboard` folder to your project.
 
 or use `CocoaPods` with Podfile:
 
@@ -44,15 +44,14 @@ or use `CocoaPods` with Podfile:
 pod 'Customkeyboard'
 ```
 
-Swift 4.0.2：
+Swift 4.0.3：
 
 ```swift
-source 'https://github.com/CocoaPods/Specs.git'
-platform :ios, '11.2'
-use_frameworks!
 
+platform :ios, '11.2'
 target '<Your Target Name>' do
-		pod 'Customkeyboard', '~> 0.1.0'
+use_frameworks!
+pod 'Customkeyboard'
 end
 ```
 
@@ -76,18 +75,23 @@ class ViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        view.backgroundColor = UIColor.gray
+        example()
+    }
+    
+    /// 例子
+    private func example() {
+        /// 文本框
+        let textField = UITextField(frame: CGRect(x: 100, y: 120, width: 200, height: 35))
+        textField.backgroundColor = UIColor.white
+        view.addSubview(textField)
         
-        view.backgroundColor = UIColor.black
-        
-        let textfeild = UITextField(frame: CGRect(x: 50, y: 50, width: 100, height: 30))
-        textfeild.backgroundColor = UIColor.white
-        view.addSubview(textfeild)
-        
-        let keyboard = DigitalKeyboard(view)
+        let keyboard = CustomKeyboard(view)
         keyboard.style = .number
-        keyboard.customDoneButton(title: "确定", titleColor: .white, theme: .orange, target: self, callback: nil)
-        textfeild.inputView = keyboard
-        textfeild.becomeFirstResponder()
+        keyboard.customDoneButton(title: "确定", titleColor: .white, theme: .blue, target: self, callback: nil)
+        textField.inputView = keyboard
+        textField.becomeFirstResponder()
     }
 }
 
