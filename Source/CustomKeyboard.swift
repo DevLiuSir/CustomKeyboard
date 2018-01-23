@@ -1,5 +1,5 @@
 //
-//  DigitalKeyboard.swift
+//  CustomKeyboard.swift
 //  CustomKeyboard
 //
 //  Created by Liu Chuan on 2017/12/26.
@@ -27,12 +27,12 @@ public enum Style {
     case number
 }
 
-// MARK: - 数字键盘。 遵守 UITextFieldDelegate 协议
-open class DigitalKeyboard: UIInputView, UITextFieldDelegate {
+// MARK: - 自定义键盘。 遵守 UITextFieldDelegate 协议
+open class CustomKeyboard: UIInputView, UITextFieldDelegate {
     
     // MARK: - 属性
     // 存储属性
-    open static let `default` = DigitalKeyboard(frame: CGRect(x: 0, y: 0, width: screenWith, height: 250), inputViewStyle: .keyboard)
+    open static let `default` = CustomKeyboard(frame: CGRect(x: 0, y: 0, width: screenWith, height: 250), inputViewStyle: .keyboard)
     
     /// 文本输入框
     private var textFields = [UITextField]()
@@ -162,7 +162,7 @@ open class DigitalKeyboard: UIInputView, UITextFieldDelegate {
         
         let podBundle = Bundle(for: classForCoder)
         // 获取文件路径
-        if let bundleURL = podBundle.url(forResource: "DigitalKeyboard", withExtension: "bundle") {
+        if let bundleURL = podBundle.url(forResource: "CustomKeyboard", withExtension: "bundle") {
             if let bundle = Bundle(url: bundleURL) {
                 // 设置图片
                 backSpace = UIImage(named: "Keyboard_Backspace", in: bundle, compatibleWith: nil)
@@ -397,7 +397,7 @@ extension UIImage {
  
  采用UIInputViewAudioFeedback协议
  */
-extension DigitalKeyboard: UIInputViewAudioFeedback {
+extension CustomKeyboard: UIInputViewAudioFeedback {
     open var enableInputClicksWhenVisible: Bool {
         return true
     }
