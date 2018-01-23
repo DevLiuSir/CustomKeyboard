@@ -1,9 +1,9 @@
 //
 //  AppDelegate.swift
-//  CustomKeyboard
+//  CustomKeyboardExample
 //
-//  Created by Liu Chuan on 2017/12/26.
-//  Copyright © 2017年 LC. All rights reserved.
+//  Created by Liu Chuan on 2018/1/23.
+//  Copyright © 2018年 LC. All rights reserved.
 //
 
 import UIKit

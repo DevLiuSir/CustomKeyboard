@@ -16,7 +16,7 @@ Pod::Spec.new do |s|
   #
 
   s.name         = "Customkeyboard"
-  s.version      = "2.0"
+  s.version      = "2.1"
   s.summary      = "A simple and fast realization of a custom keyboard."
 
   # This description is used to generate tags and improve search results.
@@ -91,7 +91,7 @@ Pod::Spec.new do |s|
   #  Not including the public_header_files will make all headers public.
   #
 
-  s.source_files  = "Source", "CustomKeyboard/**/*.{h,m,swift}"
+  s.source_files  = "Customkeyboard", "CustomKeyboard/**/*.{h,m,swift}"
   s.exclude_files = "CustomKeyboard/Exclude"
 
   # s.public_header_files = "Classes/**/*.h"
@@ -108,7 +108,7 @@ Pod::Spec.new do |s|
   # s.resource  = "icon.png"
   # s.resources = "Resources/*.png"
     s.resource_bundles = {
-    'CustomKeyboard' => ['Source/Resources/**/*.png']
+    'CustomKeyboard' => ['CustomKeyboard/Resources/**/*.png']
    }
 
   # s.preserve_paths = "FilesToSave", "MoreFilesToSave"

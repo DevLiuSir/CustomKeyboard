@@ -1,6 +1,6 @@
 //
 //  ViewController.swift
-//  CustomKeyboard
+//  CustomKeyboardExample
 //
 //  Created by Liu Chuan on 2017/12/26.
 //  Copyright © 2017年 LC. All rights reserved.
@@ -12,7 +12,7 @@ import UIKit
 let lightBlue = UIColor(red:0.45, green:0.69, blue:0.95, alpha:1.00)
 
 class ViewController: UIViewController {
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -35,4 +35,3 @@ class ViewController: UIViewController {
         textField.becomeFirstResponder()
     }
 }
-
