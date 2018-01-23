@@ -16,8 +16,8 @@ Pod::Spec.new do |s|
   #
 
   s.name         = "Customkeyboard"
-  s.version      = "0.1.0"
-  s.summary      = "A short description of Customkeyboard."
+  s.version      = "2.0"
+  s.summary      = "A simple and fast realization of a custom keyboard."
 
   # This description is used to generate tags and improve search results.
   #   * Think: What does it do? Why did you write it? What is the focus?
@@ -29,7 +29,7 @@ Pod::Spec.new do |s|
                    DESC
 
   s.homepage     = "https://github.com/ChinaHackers/CustomKeyboard"
-  s.screenshots  = "https://ws4.sinaimg.cn/large/006tNc79gy1fmwssbg9ofg307s0eg4qt.gif"
+  s.screenshots  = "https://github.com/ChinaHackers/Customkeyboard/raw/master/Screencast/Screencast.gif"
 
 
   # ―――  Spec License  ――――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
@@ -91,8 +91,8 @@ Pod::Spec.new do |s|
   #  Not including the public_header_files will make all headers public.
   #
 
-  s.source_files  = "DigitalKeyboard", "DigitalKeyboard/**/*.{h,m}"
-  s.exclude_files = "DigitalKeyboard/Exclude"
+  s.source_files  = "Source", "CustomKeyboard/**/*.{h,m,swift}"
+  s.exclude_files = "CustomKeyboard/Exclude"
 
   # s.public_header_files = "Classes/**/*.h"
 
@@ -108,7 +108,7 @@ Pod::Spec.new do |s|
   # s.resource  = "icon.png"
   # s.resources = "Resources/*.png"
     s.resource_bundles = {
-    'DigitalKeyboard' => ['DigitalKeyboard/Resources/**/*.png']
+    'CustomKeyboard' => ['Source/Resources/**/*.png']
    }
 
   # s.preserve_paths = "FilesToSave", "MoreFilesToSave"

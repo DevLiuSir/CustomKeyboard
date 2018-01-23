@@ -18,17 +18,21 @@ class ViewController: UIViewController {
         
         view.backgroundColor = UIColor.gray
         
+        example()
+    }
+    /// 例子
+    private func example() {
+        /// 文本框
         let textField = UITextField(frame: CGRect(x: 100, y: 120, width: 200, height: 35))
         textField.borderStyle = .roundedRect
         view.addSubview(textField)
-       
-        let keyboard = DigitalKeyboard(view)
+        
+        /* -- CustomKeyboard --- */
+        let keyboard = CustomKeyboard(view)
         keyboard.style = .number
         keyboard.customDoneButton(title: "确定", titleColor: .white, theme: lightBlue, target: self, callback: nil)
         textField.inputView = keyboard
         textField.becomeFirstResponder()
-        
-        
     }
 }
 
