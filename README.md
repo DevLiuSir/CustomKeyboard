@@ -1,14 +1,14 @@
 ![](https://github.com/ChinaHackers/Customkeyboard/raw/master/Screencast/Customkeyboard.png)
 
 ![language](https://img.shields.io/badge/language-swift-orange.svg)
-[![Swift &4.0](https://img.shields.io/badge/swift-4.0-blue.svg?style=flat)](https://developer.apple.com/swift/)
+[![Swift &4.0](https://img.shields.io/badge/swift-4.0+-blue.svg?style=flat)](https://developer.apple.com/swift/)
 ![xcode version](https://img.shields.io/badge/xcode-9+-brightgreen.svg)
 [![CocoaPods compatible](https://img.shields.io/cocoapods/v/Customkeyboard.svg)](#cocoapods) 
 ![downloard](https://img.shields.io/cocoapods/dt/Customkeyboard.svg)
-![](https://img.shields.io/appveyor/ci/gruntjs/grunt.svg)
-![](https://img.shields.io/badge/platform-iOS-blue.svg)
+![build](https://img.shields.io/appveyor/ci/gruntjs/grunt/master.svg)
+![platform](https://img.shields.io/cocoapods/p/Customkeyboard.svg?style=flat)
 ![https://github.com/ChinaHackers/Customkeyboard/blob/master/LICENSE](https://img.shields.io/github/license/ChinaHackers/Customkeyboard.svg)
-![](https://img.shields.io/github/stars/ChinaHackers/Customkeyboard.svg?style=social&label=Star)
+![Github star](https://img.shields.io/github/stars/ChinaHackers/Customkeyboard.svg?style=social&label=Star)
 [![Twitter Follow](https://img.shields.io/twitter/follow/LiuChuan_.svg?style=social)](https://twitter.com/LiuChuan_)
 
 
@@ -86,7 +86,8 @@ class ViewController: UIViewController {
         let textField = UITextField(frame: CGRect(x: 100, y: 120, width: 200, height: 35))
         textField.backgroundColor = UIColor.white
         view.addSubview(textField)
-        
+       
+	 /** CustomKeyboard **/
         let keyboard = CustomKeyboard(view)
         keyboard.style = .number
         keyboard.customDoneButton(title: "确定", titleColor: .white, theme: .blue, target: self, callback: nil)
