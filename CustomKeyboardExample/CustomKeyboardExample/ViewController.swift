@@ -28,10 +28,11 @@ class ViewController: UIViewController {
         view.addSubview(textField)
         
         /* -- CustomKeyboard --- */
-        let keyboard = CustomKeyboard(view)
+        let keyboard = CustomKeyboard(view, field: textField)
         keyboard.style = .number
+        keyboard.whetherHighlight = true
+        keyboard.frame.size.height = 300
         keyboard.customDoneButton(title: "确定", titleColor: .white, theme: lightBlue, target: self, callback: nil)
-        textField.inputView = keyboard
         textField.becomeFirstResponder()
     }
 }
