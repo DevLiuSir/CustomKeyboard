@@ -63,6 +63,9 @@ Then, run the following command:
 $ pod install
 ```
 
+## Revision
+-  Add button sound
+-  Add long press to delete
 
 
 ## Example:
@@ -87,11 +90,12 @@ class ViewController: UIViewController {
         textField.backgroundColor = UIColor.white
         view.addSubview(textField)
        
-	 /** CustomKeyboard **/
-        let keyboard = CustomKeyboard(view)
+	 /* -- CustomKeyboard --- */
+        let keyboard = CustomKeyboard(view, field: textField)
         keyboard.style = .number
-        keyboard.customDoneButton(title: "确定", titleColor: .white, theme: .blue, target: self, callback: nil)
-        textField.inputView = keyboard
+        keyboard.whetherHighlight = true
+        keyboard.frame.size.height = 300
+        keyboard.customDoneButton(title: "确定", titleColor: .white, theme: lightBlue, target: self, callback: nil)
         textField.becomeFirstResponder()
     }
 }
