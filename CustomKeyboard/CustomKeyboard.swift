@@ -62,11 +62,10 @@ open class CustomKeyboard: UIInputView, UITextFieldDelegate, UIGestureRecognizer
         }
     }
     
-    /// 是否安全
-    open var isSafety: Bool = false {
+    /// 是否开启键盘
+    public var isEnableKeyboard: Bool = false {
         didSet {
-            if isSafety {
-                
+            if isEnableKeyboard {
                 // 注册键盘通知
                 /**
                  *参数一：注册观察者对象，参数不能为空
@@ -74,7 +73,10 @@ open class CustomKeyboard: UIInputView, UITextFieldDelegate, UIGestureRecognizer
                  *参数三：通知的名字
                  *参数四：收到指定对象的通知，没有指定具体对象就写nil
                  */
-                NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShowNotify(notifiction:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+                NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+                NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(_:)), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
+            }else {
+                NotificationCenter.default.removeObserver(self)
             }
         }
     }
@@ -312,8 +314,10 @@ open class CustomKeyboard: UIInputView, UITextFieldDelegate, UIGestureRecognizer
             firstResponder()?.insertText(text)
         }
         /*
-         播放输入点击
-         想要在点击自定义输入或键盘附加视图的键时: 播放输入点击音，首先要确认该视图采用了UIInputViewAudioFeedback协议。然后，为每个点击提供你想要的点击声音，调用UIDevice类的playInputClick方法 */
+        播放输入点击.
+            想要在点击自定义输入或键盘附加视图的键时: 播放输入点击音，首先要确认该视图采用了UIInputViewAudioFeedback协议。
+            然后，为每个点击提供你想要的点击声音，调用UIDevice类的playInputClick方法
+         */
         UIDevice.current.playInputClick()
     }
     
@@ -451,21 +455,20 @@ open class CustomKeyboard: UIInputView, UITextFieldDelegate, UIGestureRecognizer
         return (Bundle(identifier: "com.apple.UIKit")?.localizedString(forKey: key, value: nil, table: nil))!
     }
     
-    /// 显示键盘
+    /// 键盘即将显示 (弹起)
     ///
-    /// - Parameter _: 通知
-    @objc func keyboardWillShowNotify(notifiction _: Notification) {
-        titles = titles.sorted { _, _ in
-            arc4random() < arc4random()
-        }
-        if !buttions.isEmpty {
-            for (idx, item) in buttions.enumerated() {
-                item.setTitle(titles[idx], for: .normal)
-            }
-        }
+    /// - Parameter notification: 通知
+    @objc fileprivate func keyboardWillShow(_ notification: NSNotification) {
+        print("成为第一响应者 (弹起键盘)")
     }
-
-   
+    
+    /// 键盘即将隐藏 (收起)
+    ///
+    /// - Parameter notification: 通知
+    @objc fileprivate func keyboardWillHide(_ notification: NSNotification) {
+        print("辞去第一响应者 (收起键盘)")
+    }
+    
 }
 // MARK: - 扩展 UIImage
 extension UIImage {
