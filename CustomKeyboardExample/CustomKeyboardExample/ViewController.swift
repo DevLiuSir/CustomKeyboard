@@ -29,7 +29,7 @@ class ViewController: UIViewController {
         
         /* -- CustomKeyboard --- */
         let keyboard = CustomKeyboard(view, field: textField)
-        keyboard.style = .number
+        keyboard.keyboardStyle = .number
         keyboard.isEnableKeyboard = true
         keyboard.whetherHighlight = true
         keyboard.frame.size.height = 300

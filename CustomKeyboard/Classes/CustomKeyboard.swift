@@ -13,11 +13,11 @@ let screenWith = UIScreen.main.bounds.size.width
 /// 默认完成按钮颜色
 public let defaultDoneColor = UIColor(red:0.45, green:0.69, blue:0.95, alpha:1.00)
 
-/// 样式
+/// 键盘样式
 ///
 /// - idcard: 身份证类型
 /// - number: 数字类型
-public enum Style {
+public enum KeyboardStyle {
     
     /// 身份证类型
     case idcard
@@ -31,7 +31,7 @@ open class CustomKeyboard: UIInputView, UITextFieldDelegate, UIGestureRecognizer
     
     // MARK: - 属性
     // 存储属性
-    open static let `default` = CustomKeyboard(frame: CGRect(x: 0, y: 0, width: screenWith, height: 300), inputViewStyle: .keyboard)
+    public static let `default` = CustomKeyboard(frame: CGRect(x: 0, y: 0, width: screenWith, height: 300), inputViewStyle: .keyboard)
     
     /// 文本输入框
     private var textFields = [UITextField]()
@@ -48,10 +48,10 @@ open class CustomKeyboard: UIInputView, UITextFieldDelegate, UIGestureRecognizer
     /// 按钮文字
     fileprivate lazy var titles = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"]
     
-    /// 样式
-    public var style = Style.idcard {
+    /// 键盘样式
+    public var keyboardStyle = KeyboardStyle.idcard {
         didSet {        // 监听 `style` 数值的改变, 从而设置数字键盘的样式
-            setDigitButton(style)
+            setDigitButton(keyboardStyle)
         }
     }
 
@@ -73,8 +73,8 @@ open class CustomKeyboard: UIInputView, UITextFieldDelegate, UIGestureRecognizer
                  *参数三：通知的名字
                  *参数四：收到指定对象的通知，没有指定具体对象就写nil
                  */
-                NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
-                NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(_:)), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
+                NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
+                NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
             }else {
                 NotificationCenter.default.removeObserver(self)
             }
@@ -119,7 +119,7 @@ open class CustomKeyboard: UIInputView, UITextFieldDelegate, UIGestureRecognizer
     /// - Parameters:
     ///   - frame: 尺寸
     ///   - inputViewStyle: 输入视图样式
-    public override init(frame: CGRect, inputViewStyle: UIInputViewStyle) {
+    public override init(frame: CGRect, inputViewStyle: UIInputView.Style) {
         super.init(frame: frame, inputViewStyle: inputViewStyle)
     }
 
@@ -141,7 +141,7 @@ open class CustomKeyboard: UIInputView, UITextFieldDelegate, UIGestureRecognizer
         let btnHeight = frame.height / CGFloat(columnsNum)
         
         /***循环布局12个按钮***/
-        for i in  0...11 {
+        for i in 0...11 {
             let view = viewWithTag(i + 1)
             view?.frame.origin.x = btnWidth * CGFloat((i) % 3)  //3个按钮以换行
             view?.frame.origin.y = btnHeight * CGFloat((i) / 3)
@@ -405,11 +405,11 @@ open class CustomKeyboard: UIInputView, UITextFieldDelegate, UIGestureRecognizer
     /// 设置数字按钮的样式
     ///
     /// - Parameter style: 样式
-    private func setDigitButton(_ style: Style) {
+    private func setDigitButton(_ style: KeyboardStyle) {
         guard let button = findButton(by: 12) else {
             fatalError("not found the button with the tag")
         }
-        switch style {
+        switch keyboardStyle {
         case .idcard:
             button.setTitle("X", for: .normal)
         case .number:
