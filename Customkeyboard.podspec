@@ -16,7 +16,8 @@ Pod::Spec.new do |s|
   #
 
   s.name         = "Customkeyboard"
-  s.version      = "2.1"
+  s.version      = "5.0.0"
+  s.swift_version = "5.0"
   s.summary      = "A simple and fast realization of a custom keyboard."
 
   # This description is used to generate tags and improve search results.
@@ -29,7 +30,7 @@ Pod::Spec.new do |s|
                    DESC
 
   s.homepage     = "https://github.com/ChinaHackers/CustomKeyboard"
-  s.screenshots  = "https://github.com/ChinaHackers/Customkeyboard/raw/master/Screencast/Screencast.gif"
+  s.screenshots  = "https://github.com/ChinaHackers/CustomKeyboard/raw/master/Screencast/Screencast.png"
 
 
   # ―――  Spec License  ――――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
@@ -56,7 +57,7 @@ Pod::Spec.new do |s|
   s.author             = { "ChinaHackers" => "93428739@qq.com" }
   # Or just: s.author    = "ChinaHackers"
   # s.authors            = { "ChinaHackers" => "93428739@qq.com" }
-  # s.social_media_url   = "http://twitter.com/ChinaHackers"
+  # s.social_media_url   = "http://twitter.com/LiuChuan_"
 
   # ――― Platform Specifics ――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
   #
@@ -68,7 +69,7 @@ Pod::Spec.new do |s|
   # s.platform     = :ios, "5.0"
 
   #  When using multiple platforms
-  s.ios.deployment_target = "11.2"
+  s.ios.deployment_target = "12.0"
   # s.osx.deployment_target = "10.7"
   # s.watchos.deployment_target = "2.0"
   # s.tvos.deployment_target = "9.0"
@@ -91,7 +92,7 @@ Pod::Spec.new do |s|
   #  Not including the public_header_files will make all headers public.
   #
 
-  s.source_files  = "Customkeyboard", "CustomKeyboard/**/*.{h,m,swift}"
+  s.source_files  = "CustomKeyboard", "CustomKeyboard/Classes/**/*.{h,m,swift}"
   s.exclude_files = "CustomKeyboard/Exclude"
 
   # s.public_header_files = "Classes/**/*.h"
@@ -106,10 +107,11 @@ Pod::Spec.new do |s|
   #
 
   # s.resource  = "icon.png"
-  # s.resources = "Resources/*.png"
-    s.resource_bundles = {
-    'CustomKeyboard' => ['CustomKeyboard/Resources/**/*.png']
+  # s.resources = "CustomKeyboard/Resources/*.png"
+  s.resource_bundles = {
+    'CustomKeyboard' => ['CustomKeyboard/Resources/*.xcassets']
    }
+
 
   # s.preserve_paths = "FilesToSave", "MoreFilesToSave"
 
