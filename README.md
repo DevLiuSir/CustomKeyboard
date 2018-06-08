@@ -1,8 +1,8 @@
 ![](https://github.com/ChinaHackers/Customkeyboard/raw/master/Screencast/Customkeyboard.png)
 
 ![language](https://img.shields.io/badge/language-swift-orange.svg)
-[![Swift &4.0](https://img.shields.io/badge/swift-4.0+-blue.svg?style=flat)](https://developer.apple.com/swift/)
-![xcode version](https://img.shields.io/badge/xcode-9+-brightgreen.svg)
+[![Swift &4.0](https://img.shields.io/badge/swift-5.0+-blue.svg?style=flat)](https://developer.apple.com/swift/)
+![xcode version](https://img.shields.io/badge/xcode-10+-brightgreen.svg)
 [![CocoaPods compatible](https://img.shields.io/cocoapods/v/Customkeyboard.svg)](#cocoapods) 
 ![downloard](https://img.shields.io/cocoapods/dt/Customkeyboard.svg)
 ![build](https://img.shields.io/appveyor/ci/gruntjs/grunt/master.svg)
@@ -23,9 +23,9 @@
 
 ## Requirements
 ---
-- iOS 11.2
-- Xcode 9.2
-- Swift 4.0.2+
+- iOS 12.0 +
+- Xcode 10 +
+- Swift 5.0 +
 
 ## Installation
 
@@ -44,11 +44,11 @@ or use `CocoaPods` with Podfile:
 pod 'Customkeyboard'
 ```
 
-Swift 4.0.3：
+You can use CocoaPods to install `Customkeyboard` by adding it to your Podfile:
+
 
 ```swift
-
-platform :ios, '11.2'
+platform :ios, '12.0'
 target '<Your Target Name>' do
 use_frameworks!
 pod 'Customkeyboard'
@@ -74,25 +74,28 @@ $ pod install
 import UIKit
 import Customkeyboard
 
+/// color
+private let lightBlue = UIColor(red:0.45, green:0.69, blue:0.95, alpha:1.00)
+
 class ViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
+	
         view.backgroundColor = UIColor.gray
         example()
     }
     
-    /// 例子
     private func example() {
-        /// 文本框
+        /// TextField
         let textField = UITextField(frame: CGRect(x: 100, y: 120, width: 200, height: 35))
         textField.backgroundColor = UIColor.white
         view.addSubview(textField)
-       
-	 /* -- CustomKeyboard --- */
+	
+	/* -- CustomKeyboard --- */
         let keyboard = CustomKeyboard(view, field: textField)
-        keyboard.style = .number
+        keyboard.keyboardStyle = .number
+        keyboard.isEnableKeyboard = true
         keyboard.whetherHighlight = true
         keyboard.frame.size.height = 300
         keyboard.customDoneButton(title: "确定", titleColor: .white, theme: lightBlue, target: self, callback: nil)
