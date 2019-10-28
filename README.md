@@ -1,28 +1,33 @@
-![](https://github.com/ChinaHackers/Customkeyboard/raw/master/Screencast/Customkeyboard.png)
-
-![language](https://img.shields.io/badge/language-swift-orange.svg)
-[![Swift &4.0](https://img.shields.io/badge/swift-5.0+-blue.svg?style=flat)](https://developer.apple.com/swift/)
-![xcode version](https://img.shields.io/badge/xcode-10+-brightgreen.svg)
-[![CocoaPods compatible](https://img.shields.io/cocoapods/v/Customkeyboard.svg)](#cocoapods) 
-![downloard](https://img.shields.io/cocoapods/dt/Customkeyboard.svg)
-![build](https://img.shields.io/appveyor/ci/gruntjs/grunt/master.svg)
-![platform](https://img.shields.io/cocoapods/p/Customkeyboard.svg?style=flat)
-![https://github.com/ChinaHackers/Customkeyboard/blob/master/LICENSE](https://img.shields.io/github/license/ChinaHackers/Customkeyboard.svg)
-![Github star](https://img.shields.io/github/stars/ChinaHackers/Customkeyboard.svg?style=social&label=Star)
-[![Twitter Follow](https://img.shields.io/twitter/follow/LiuChuan_.svg?style=social)](https://twitter.com/LiuChuan_)
-
-
-## What is Customkeyboard?
+![](https://github.com/ChinaHackers/Customkeyboard/raw/master/Design/Customkeyboard.png)
 <p align="center"> <b> Customkeyboard is a simple and fast framework for custom digital keyboards. There's always a keyboard for you. </b></p> 
 
 
-## Screencast from our Demo
+---
+![language](https://img.shields.io/badge/language-swift-orange.svg)
+[![swift version](https://img.shields.io/badge/swift-5.1+-blue.svg?style=flat)](https://developer.apple.com/swift/)
+![xcode version](https://img.shields.io/badge/xcode-11.2+-red.svg)
+![build state](https://img.shields.io/badge/build-passing-brightgreen)
+![GitHub top language](https://img.shields.io/github/languages/top/DevLiuSir/Customkeyboard?color=blueviolet)
+![https://github.com/DevLiuSir/Customkeyboard/blob/master/LICENSE](https://img.shields.io/github/license/DevLiuSir/Customkeyboard.svg)
+![platform](https://img.shields.io/badge/platform-ios-lightgrey.svg)
+![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/DevLiuSir/Customkeyboard?color=ff69b4&label=codeSize)
+![commits count](https://badgen.net/github/commits/DevLiuSir/Customkeyboard)
+![GitHub last commit](https://img.shields.io/github/last-commit/DevLiuSir/Customkeyboard)
+![GitHub commit activity](https://img.shields.io/github/commit-activity/m/DevLiuSir/Customkeyboard)
+![Github Star](https://img.shields.io/github/stars/DevLiuSir/Customkeyboard.svg?style=social&label=Star)
+![GitHub forks](https://img.shields.io/github/forks/DevLiuSir/Customkeyboard?style=social)
+![GitHub watchers](https://img.shields.io/github/watchers/DevLiuSir/Customkeyboard?style=social)
+[![Twitter Follow](https://img.shields.io/twitter/follow/LiuChuan_.svg?style=social)](https://twitter.com/LiuChuan_)
 
-![](https://github.com/ChinaHackers/Customkeyboard/raw/master/Screencast/Screencast.gif)
+
+
+
+## Design
+
+![](https://github.com/ChinaHackers/Customkeyboard/raw/master/Design/Showcase.gif)
 
 
 ## Requirements
----
 - iOS 12.0 +
 - Xcode 10 +
 - Swift 5.0 +
@@ -68,40 +73,22 @@ $ pod install
 -  Add long press to delete
 
 
-## Example:
+## Example
+![](https://github.com/ChinaHackers/Customkeyboard/raw/master/Design/Example.png)
 
-```swift
-import UIKit
-import Customkeyboard
 
-/// color
-private let lightBlue = UIColor(red:0.45, green:0.69, blue:0.95, alpha:1.00)
 
-class ViewController: UIViewController {
+## Author
+| [<img src="https://avatars2.githubusercontent.com/u/11488337?s=460&v=4" width="120px;"/>](https://github.com/DevLiuSir)  |  [Mr Liu](https://github.com/DevLiuSir)<br/><br/><sub>Software Engineer</sub><br/> [![Twitter][1.1]][1] [![Github][2.1]][2] [![LinkedIn][3.1]][3] |
+| :------------: | :------------: |
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
-	
-        view.backgroundColor = UIColor.gray
-        example()
-    }
-    
-    private func example() {
-        /// TextField
-        let textField = UITextField(frame: CGRect(x: 100, y: 120, width: 200, height: 35))
-        textField.backgroundColor = UIColor.white
-        view.addSubview(textField)
-	
-	/* -- CustomKeyboard --- */
-        let keyboard = CustomKeyboard(view, field: textField)
-        keyboard.keyboardStyle = .number
-        keyboard.isEnableKeyboard = true
-        keyboard.whetherHighlight = true
-        keyboard.frame.size.height = 300
-        keyboard.customDoneButton(title: "确定", titleColor: .white, theme: lightBlue, target: self, callback: nil)
-        textField.becomeFirstResponder()
-    }
-}
+[1.1]: http://i.imgur.com/wWzX9uB.png (twitter icon without padding)
+[2.1]: http://i.imgur.com/9I6NRUm.png (github icon without padding)
+[3.1]: https://www.kingsfund.org.uk/themes/custom/kingsfund/dist/img/svg/sprite-icon-linkedin.svg (linkedin icon)
 
-```
+[1]: https://twitter.com/LiuChuan_
+[2]: https://github.com/DevLiuSir
+[3]: https://www.linkedin.com/in/chuan-liu-00359115a/
+
+
 
