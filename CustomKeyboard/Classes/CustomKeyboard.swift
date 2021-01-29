@@ -21,6 +21,8 @@ public enum KeyboardStyle {
     
     /// 身份证类型
     case idcard
+    /// 小数
+    case decimal
     /// 数字
     case number
 }
@@ -150,7 +152,7 @@ open class CustomKeyboard: UIInputView, UITextFieldDelegate, UIGestureRecognizer
         }
         /**** 右边: 删除\确定按钮 ****/
         // 因为上文button的tag值加1, 所以获取tag值需要加1
-        viewWithTag(12 + 1)?.frame = CGRect(x: btnWidth * 3, y: 0, width: btnWidth, height: btnHeight * 2)
+        viewWithTag(12 + 1)?.frame = CGRect(x: btnWidth * 3, y: 1, width: btnWidth, height: btnHeight * 2 - 1)
         viewWithTag(13 + 1)?.frame = CGRect(x: btnWidth * 3, y: btnHeight * 2, width: btnWidth, height: btnHeight * 2)
     }
     
@@ -412,11 +414,13 @@ open class CustomKeyboard: UIInputView, UITextFieldDelegate, UIGestureRecognizer
         switch keyboardStyle {
         case .idcard:
             button.setTitle("X", for: .normal)
-        case .number:
+        case .decimal:
             let locale = Locale.current
             // 返回地区的十进制分隔符。例如，对于“en_US”，返回“.”
             let decimalSeparator = locale.decimalSeparator! as String
             button.setTitle(decimalSeparator, for: .normal)
+        case .number:
+            button.setTitle("", for: .normal)
         }
     }
     
