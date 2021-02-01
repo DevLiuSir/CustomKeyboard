@@ -93,7 +93,7 @@ open class CustomKeyboard: UIInputView, UITextFieldDelegate, UIGestureRecognizer
     ///   - theme: 主题
     ///   - target: 目标控制器
     ///   - callback: 回调
-    public func customDoneButton(title: String, titleColor: UIColor = UIColor.white, theme: UIColor = defaultDoneColor, target: UIViewController? = nil, callback: Selector? = nil) {
+    public func customDoneButton(title: String, titleColor: UIColor = UIColor.white, theme: UIColor = defaultDoneColor, target: Any? = nil, callback: Selector? = nil) {
         
         setDoneButton(title, titleColor: titleColor, theme: theme, target: target, callback: callback)
     }
@@ -194,7 +194,7 @@ open class CustomKeyboard: UIInputView, UITextFieldDelegate, UIGestureRecognizer
     ///   - theme: 主题
     ///   - target: 目标控制器
     ///   - callback: 回调
-    private func setDoneButton(_ title: String, titleColor: UIColor, theme: UIColor, target: UIViewController?, callback: Selector?) {
+    private func setDoneButton(_ title: String, titleColor: UIColor, theme: UIColor, target: Any?, callback: Selector?) {
         // 通过tag值获取done按钮
         guard let itemButton = findButton(by: 13 + 1) else {
             fatalError("not found the button with the tag")
