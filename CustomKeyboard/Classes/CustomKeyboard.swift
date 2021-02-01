@@ -337,7 +337,7 @@ open class CustomKeyboard: UIInputView, UITextFieldDelegate, UIGestureRecognizer
         let subStr = str.contains(".")
         
         if subStr {
-            print("小数点已存在....")
+            print("decimal point already exist")
         }else {
             firstResponder()?.insertText(text)
         }
@@ -366,10 +366,10 @@ open class CustomKeyboard: UIInputView, UITextFieldDelegate, UIGestureRecognizer
     @objc private func deleteLongPressed(_ sender: UILongPressGestureRecognizer) {
         
         guard sender.state == .began else {
-            print("长按响应结束")
+            print("long press to finish")
             return
         }
-        print("长按响应开始")
+        print("long press start accept")
         /* 根据文本输入框的文字的个数, 多次循环删除 */
         for _ in 0 ... (firstResponder()?.text?.count)! {
             firstResponder()?.deleteBackward()
@@ -463,14 +463,14 @@ open class CustomKeyboard: UIInputView, UITextFieldDelegate, UIGestureRecognizer
     ///
     /// - Parameter notification: 通知
     @objc fileprivate func keyboardWillShow(_ notification: NSNotification) {
-        print("成为第一响应者 (弹起键盘)")
+        print("become first responder")
     }
     
     /// 键盘即将隐藏 (收起)
     ///
     /// - Parameter notification: 通知
     @objc fileprivate func keyboardWillHide(_ notification: NSNotification) {
-        print("辞去第一响应者 (收起键盘)")
+        print("resign first responder")
     }
     
 }
