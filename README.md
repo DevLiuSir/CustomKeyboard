@@ -1,5 +1,7 @@
+# 生年月日入力改修 https://github.com/r-n-i/code-ios/pull/2788 
+
 ![](https://github.com/ChinaHackers/Customkeyboard/raw/master/Design/Customkeyboard.png)
-<p align="center"> <b> Customkeyboard is a simple and fast framework for custom digital keyboards. There's always a keyboard for you. </b></p> 
+<p align="center"> <b> Customkeyboard is a simple and fast framework for custom digital keyboards. There's always a keyboard for you. </b></p>
 
 
 ---
@@ -89,6 +91,3 @@ $ pod install
 [1]: https://twitter.com/LiuChuan_
 [2]: https://github.com/DevLiuSir
 [3]: https://www.linkedin.com/in/chuan-liu-00359115a/
-
-
-
