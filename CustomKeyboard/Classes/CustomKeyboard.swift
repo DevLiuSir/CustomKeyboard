@@ -25,6 +25,8 @@ public enum KeyboardStyle {
     case decimal
     /// 数字
     case number
+    /// custom
+    case custom
 }
 
 // 遵守 UITextFieldDelegate 协议
@@ -48,14 +50,10 @@ open class CustomKeyboard: UIInputView, UITextFieldDelegate, UIGestureRecognizer
     fileprivate var buttions: [UIButton] = []
 
     /// 按钮文字
-    fileprivate lazy var titles = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"]
+    fileprivate var titles: Array<String>
     
     /// 键盘样式
-    public var keyboardStyle = KeyboardStyle.idcard {
-        didSet {        // 监听 `style` 数值的改变, 从而设置数字键盘的样式
-            setDigitButton(keyboardStyle)
-        }
-    }
+    public var keyboardStyle = KeyboardStyle.idcard
 
     /// 是否高亮
     public var whetherHighlight = false {
@@ -108,9 +106,11 @@ open class CustomKeyboard: UIInputView, UITextFieldDelegate, UIGestureRecognizer
     /// - Parameters:
     ///   - view: 视图
     ///   - field: 文本输入框
-    public convenience init(_ view: UIView, field: UITextField? = nil) {
+    public convenience init(_ view: UIView, field: UITextField? = nil, keyboardStyle: KeyboardStyle) {
         
         self.init(frame: CGRect.zero, inputViewStyle: .keyboard)
+        titles = (keyboardStyle == .custom ? ["7", "8", "9", "4", "5", "6", "1", "2", "3"] : ["1", "2", "3", "4", "5", "6", "7", "8", "9"])
+        self.keyboardStyle = keyboardStyle
         backgroundColor = .white
         addKeyboard(view, field: field)
     }
@@ -122,6 +122,7 @@ open class CustomKeyboard: UIInputView, UITextFieldDelegate, UIGestureRecognizer
     ///   - frame: 尺寸
     ///   - inputViewStyle: 输入视图样式
     public override init(frame: CGRect, inputViewStyle: UIInputView.Style) {
+        titles = ["1", "2", "3", "4", "5", "6", "7", "8", "9"]
         super.init(frame: frame, inputViewStyle: inputViewStyle)
     }
 
@@ -136,11 +137,14 @@ open class CustomKeyboard: UIInputView, UITextFieldDelegate, UIGestureRecognizer
         /// 纵列数
         let columnsNum = 4
         
+        /// 行数
+        let rowNum = keyboardStyle == .custom ? 5 : 4
+        
         /// 一个按钮的宽度
         let btnWidth = frame.width / CGFloat(columnsNum)
         
         /// 一个按钮的高度
-        let btnHeight = frame.height / CGFloat(columnsNum)
+        let btnHeight = frame.height / CGFloat(rowNum)
         
         /***循环布局12个按钮***/
         for i in 0...11 {
@@ -162,26 +166,35 @@ open class CustomKeyboard: UIInputView, UITextFieldDelegate, UIGestureRecognizer
 
         /// 纵列数
         let columnsNum = 4
+        
+        /// 行数
+        let rowNum = keyboardStyle == .custom ? 5 : 4
 
         /// 一个按钮的宽度
         let btnWidth = frame.width / CGFloat(columnsNum)
 
         /// 一个按钮的高度
-        let btnHeight = frame.height / CGFloat(columnsNum)
+        let btnHeight = frame.height / CGFloat(rowNum)
 
         // 创建一个贝塞尔路径
         let bezierPath = UIBezierPath()
 
-        for i in 0 ... 3 {  // 4条横线
+        for i in 0 ... rowNum - 1 {  // 4条横线
             //开始绘制
             bezierPath.move(to: CGPoint(x: 0, y: btnHeight * CGFloat(i)))
             bezierPath.addLine(to: CGPoint(x: frame.width, y: btnHeight * CGFloat(i)))
         }
-        for i in 1 ... 3 {  // 3条竖线
+        for i in 1 ... columnsNum - 1 {  // 3条竖线
             bezierPath.move(to: CGPoint(x: btnWidth * CGFloat(i), y: 0))
             bezierPath.addLine(to: CGPoint(x: btnWidth * CGFloat(i), y: frame.height))
         }
-        UIColor.lightGray.setStroke()
+        
+        if keyboardStyle == .custom {
+            UIColor.clear.setStroke()
+        } else {
+            UIColor.lightGray.setStroke()
+        }
+        
         bezierPath.lineWidth = 1
         bezierPath.stroke()
     }
@@ -216,7 +229,7 @@ open class CustomKeyboard: UIInputView, UITextFieldDelegate, UIGestureRecognizer
     private func addKeyboard(_ view: UIView, field: UITextField? = nil) {
         superView = view
         customSubview()
-        
+        setDigitButton(keyboardStyle)
         guard let textField = field else {
             for view in (superView?.subviews)! {
                 guard view.isKind(of: UITextField.self) else { return }
@@ -287,7 +300,7 @@ open class CustomKeyboard: UIInputView, UITextFieldDelegate, UIGestureRecognizer
                 button.setBackgroundImage(nil, for: .highlighted)
                 button.setTitle(LocalizedString("Done"), for: .normal)
             default:        // 数字按钮
-                button.setTitle("\(idx + 1)", for: .normal)
+                button.setTitle(titles[idx], for: .normal)
                 buttions.append(button)
             }
             button.addTarget(self, action: #selector(tap), for: .touchUpInside)
@@ -420,6 +433,8 @@ open class CustomKeyboard: UIInputView, UITextFieldDelegate, UIGestureRecognizer
             let decimalSeparator = locale.decimalSeparator! as String
             button.setTitle(decimalSeparator, for: .normal)
         case .number:
+            button.setTitle("", for: .normal)
+        case .custom:
             button.setTitle("", for: .normal)
         }
     }
