@@ -44,7 +44,7 @@ open class CustomKeyboard: UIInputView, UITextFieldDelegate, UIGestureRecognizer
     private var superView: UIView?
     
     /// 按钮的个数
-    private let buttonsCount: Int = 14
+    private var buttonsCount: Int = 14
     
     /// 按钮数组
     fileprivate var buttions: [UIButton] = []
@@ -110,6 +110,7 @@ open class CustomKeyboard: UIInputView, UITextFieldDelegate, UIGestureRecognizer
         
         self.init(frame: CGRect.zero, inputViewStyle: .keyboard)
         titles = (keyboardStyle == .custom ? ["7", "8", "9", "4", "5", "6", "1", "2", "3"] : ["1", "2", "3", "4", "5", "6", "7", "8", "9"])
+        buttonsCount = (keyboardStyle == .custom ? 17 : 14)
         self.keyboardStyle = keyboardStyle
         backgroundColor = .white
         addKeyboard(view, field: field)
@@ -156,8 +157,17 @@ open class CustomKeyboard: UIInputView, UITextFieldDelegate, UIGestureRecognizer
         }
         /**** 右边: 删除\确定按钮 ****/
         // 因为上文button的tag值加1, 所以获取tag值需要加1
-        viewWithTag(12 + 1)?.frame = CGRect(x: btnWidth * 3, y: 1, width: btnWidth, height: btnHeight * 2 - 1)
-        viewWithTag(13 + 1)?.frame = CGRect(x: btnWidth * 3, y: btnHeight * 2, width: btnWidth, height: btnHeight * 2)
+        if keyboardStyle == .custom {
+            viewWithTag(12 + 1)?.frame = CGRect(x: btnWidth * 3, y: 1, width: btnWidth, height: btnHeight - 1)
+            viewWithTag(13 + 1)?.frame = CGRect(x: btnWidth * 3, y: btnHeight, width: btnWidth, height: btnHeight)
+            viewWithTag(14 + 1)?.frame = CGRect(x: btnWidth * 3, y: btnHeight * 2, width: btnWidth, height: btnHeight)
+            viewWithTag(15 + 1)?.frame = CGRect(x: btnWidth * 3, y: btnHeight * 3, width: btnWidth, height: btnHeight)
+            viewWithTag(16 + 1)?.frame = CGRect(x: 0, y: btnHeight * 4, width: frame.width, height: btnHeight)
+        } else {
+            viewWithTag(12 + 1)?.frame = CGRect(x: btnWidth * 3, y: 1, width: btnWidth, height: btnHeight * 2 - 1)
+            viewWithTag(13 + 1)?.frame = CGRect(x: btnWidth * 3, y: btnHeight * 2, width: btnWidth, height: btnHeight * 2)
+        }
+        
     }
     
     /***** 绘制界面: 按钮的分割线 *****/
@@ -209,7 +219,7 @@ open class CustomKeyboard: UIInputView, UITextFieldDelegate, UIGestureRecognizer
     ///   - callback: 回调
     private func setDoneButton(_ title: String, titleColor: UIColor, theme: UIColor, target: Any?, callback: Selector?) {
         // 通过tag值获取done按钮
-        guard let itemButton = findButton(by: 13 + 1) else {
+        guard let itemButton = findButton(by: self.keyboardStyle == .custom ? 16 + 1 : 13 + 1) else {
             fatalError("not found the button with the tag")
         }
         if let selector = callback, let target = target {
@@ -274,39 +284,81 @@ open class CustomKeyboard: UIInputView, UITextFieldDelegate, UIGestureRecognizer
         dismiss = UIImage(named: "Keyboard_DismissKey", in: bundle, compatibleWith: nil)
 
         /* 创建键盘视图上所有的按钮 */
-        for idx in 0 ..< buttonsCount {
-            let button = UIButton()
-            button.titleLabel?.font = UIFont.systemFont(ofSize: 28)
-            button.setTitleColor(UIColor.black, for: .normal)
+        
+        switch keyboardStyle {
+        case .decimal, .idcard, .number:
+            for idx in 0 ..< buttonsCount {
+                let button = UIButton()
+                button.titleLabel?.font = UIFont.systemFont(ofSize: 28)
+                button.setTitleColor(UIColor.black, for: .normal)
 
-            switch idx {    // tag值
-            case 9:         //包含0, 所以当前是第10个按钮
-                button.setTitle("", for: .normal)
-                button.setImage(dismiss, for: .normal)
-            case 10:        // 0
-                button.setTitle("0", for: .normal)
-                buttions.append(button)
-            case 11:        // 小数点
-                button.setTitle("X", for: .normal)
-            case 12:        // 退格键
-                button.setTitle("", for: .normal)
-                button.setImage(backSpace, for: .normal)
-                button.backgroundColor = .white
-            case 13:        // 完成按钮
-                button.titleLabel?.font = UIFont.systemFont(ofSize: 17)
-                button.backgroundColor = defaultDoneColor
-                button.setTitleColor(UIColor.white, for: .normal)
-                button.setBackgroundImage(nil, for: .normal)
-                button.setBackgroundImage(nil, for: .highlighted)
-                button.setTitle(LocalizedString("Done"), for: .normal)
-            default:        // 数字按钮
-                button.setTitle(titles[idx], for: .normal)
-                buttions.append(button)
+                switch idx {    // tag值
+                case 9:         //包含0, 所以当前是第10个按钮
+                    button.setTitle("", for: .normal)
+                    button.setImage(dismiss, for: .normal)
+                case 10:        // 0
+                    button.setTitle("0", for: .normal)
+                    buttions.append(button)
+                case 11:        // 小数点
+                    button.setTitle("X", for: .normal)
+                case 12:        // 退格键
+                    button.setTitle("", for: .normal)
+                    button.setImage(backSpace, for: .normal)
+                    button.backgroundColor = .white
+                case 13:        // 完成按钮
+                    button.titleLabel?.font = UIFont.systemFont(ofSize: 17)
+                    button.backgroundColor = defaultDoneColor
+                    button.setTitleColor(UIColor.white, for: .normal)
+                    button.setBackgroundImage(nil, for: .normal)
+                    button.setBackgroundImage(nil, for: .highlighted)
+                    button.setTitle(LocalizedString("Done"), for: .normal)
+                default:        // 数字按钮
+                    button.setTitle(titles[idx], for: .normal)
+                    buttions.append(button)
+                }
+                button.addTarget(self, action: #selector(tap), for: .touchUpInside)
+                addSubview(button)
+                button.tag = idx + 1
             }
-            button.addTarget(self, action: #selector(tap), for: .touchUpInside)
-            addSubview(button)
-            button.tag = idx + 1
+        case .custom:
+            for idx in 0 ..< buttonsCount {
+                let button = UIButton()
+                button.titleLabel?.font = UIFont.systemFont(ofSize: 25)
+                button.setTitleColor(UIColor.black, for: .normal)
+
+                switch idx {    // tag值
+                case 9:         //包含0, 所以当前是第10个按钮
+                    button.setTitle("00", for: .normal)
+                case 10:        // 0
+                    button.setTitle("0", for: .normal)
+                    buttions.append(button)
+                case 11:        // 退格键
+                    button.setTitle("", for: .normal)
+                    button.setImage(backSpace, for: .normal)
+                    button.backgroundColor = .white
+                case 12:
+                    button.setTitle("➗", for: .normal)
+                case 13:
+                    button.setTitle("✖️", for: .normal)
+                case 14:
+                    button.setTitle("➖", for: .normal)
+                case 15:
+                    button.setTitle("➕", for: .normal)
+                case 16:
+                    button.titleLabel?.font = UIFont.systemFont(ofSize: 17)
+                    button.setTitleColor(UIColor.black, for: .normal)
+                    button.setTitle("確定", for: .normal)
+                default:        // 数字按钮
+                    button.setTitle(titles[idx], for: .normal)
+                    buttions.append(button)
+                }
+                button.addTarget(self, action: #selector(tap), for: .touchUpInside)
+                addSubview(button)
+                button.tag = idx + 1
+            }
         }
+        
+        
     }
 
     /// 键盘视图按钮点击事件
@@ -318,15 +370,27 @@ open class CustomKeyboard: UIInputView, UITextFieldDelegate, UIGestureRecognizer
             fatalError("not found the sender's currentTitle")
         }
         // 因为上文button的tag值加1, 所以值改变了
-        switch sender.tag {
-        case 12:                        // 小数点
-            handlePoint(btn: sender)
-        case 12 + 1:                    // 删除
-            handleDelete(button: sender)
-        case 13 + 1, 9 + 1:             // 隐藏键盘\确定键,辞去第一响应者
-            firstResponder()?.resignFirstResponder()
-        default:                        // 其他按钮文本框插入当前输入文本
-            firstResponder()?.insertText(text)
+        switch keyboardStyle {
+        case .decimal, .idcard, .number:
+            switch sender.tag {
+            case 12:                        // 小数点
+                handlePoint(btn: sender)
+            case 12 + 1:                    // 删除
+                handleDelete(button: sender)
+            case 13 + 1, 9 + 1:             // 隐藏键盘\确定键,辞去第一响应者
+                firstResponder()?.resignFirstResponder()
+            default:                        // 其他按钮文本框插入当前输入文本
+                firstResponder()?.insertText(text)
+            }
+        case .custom:
+            switch sender.tag {
+            case 12:                        // 删除
+                handleDelete(button: sender)
+            case 16 + 1:            // 隐藏键盘\确定键,辞去第一响应者
+                firstResponder()?.resignFirstResponder()
+            default:                        // 其他按钮文本框插入当前输入文本
+                firstResponder()?.insertText(text)
+            }
         }
         /*
         播放输入点击.
