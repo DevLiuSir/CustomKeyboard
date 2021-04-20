@@ -52,6 +52,22 @@ open class CustomKeyboard: UIInputView, UITextFieldDelegate, UIGestureRecognizer
     /// 按钮文字
     fileprivate var titles: Array<String>
     
+    /// 操作数
+    fileprivate var previousNumber: Int = 0
+    
+    /// 被操作数
+    fileprivate var operateNumber: Int = 0
+    
+    /// 操作符
+    fileprivate var currentOperator: String = "" {
+        didSet {
+            guard let itemButton = findButton(by: self.keyboardStyle == .custom ? 16 + 1 : 13 + 1) else {
+                fatalError("not found the button with the tag")
+            }
+            itemButton.isSelected = !(currentOperator == "")
+        }
+    }
+    
     /// 键盘样式
     public var keyboardStyle = KeyboardStyle.idcard
 
@@ -344,10 +360,11 @@ open class CustomKeyboard: UIInputView, UITextFieldDelegate, UIGestureRecognizer
                     button.setTitle("➖", for: .normal)
                 case 15:
                     button.setTitle("➕", for: .normal)
-                case 16:
+                case 16:        // 完成按钮
                     button.titleLabel?.font = UIFont.systemFont(ofSize: 17)
                     button.setTitleColor(UIColor.black, for: .normal)
                     button.setTitle("確定", for: .normal)
+                    button.setTitle("＝", for: .selected)
                 default:        // 数字按钮
                     button.setTitle(titles[idx], for: .normal)
                     buttions.append(button)
@@ -386,10 +403,44 @@ open class CustomKeyboard: UIInputView, UITextFieldDelegate, UIGestureRecognizer
             switch sender.tag {
             case 12:                        // 删除
                 handleDelete(button: sender)
+            case 12 + 1, 13 + 1, 14 + 1, 15 + 1:            // 除乘减加
+                calculateOperator(button: sender)
             case 16 + 1:            // 隐藏键盘\确定键,辞去第一响应者
-                firstResponder()?.resignFirstResponder()
+                if currentOperator == "" {
+                    firstResponder()?.resignFirstResponder()
+                } else {
+                    if operateNumber != 0 {
+                        var finalNumber = 0
+                        switch currentOperator {
+                        case "➗":
+                            finalNumber = previousNumber / operateNumber
+                        case "✖️":
+                            finalNumber = previousNumber * operateNumber
+                        case "➖":
+                            finalNumber = previousNumber - operateNumber
+                        case "➕":
+                            finalNumber = previousNumber + operateNumber
+                        default:
+                            finalNumber = 0
+                        }
+                        firstResponder()?.text = ""
+                        firstResponder()?.insertText(String(finalNumber))
+                        currentOperator = ""
+                        operateNumber = 0
+                        previousNumber = 0
+                    }
+                }
             default:                        // 其他按钮文本框插入当前输入文本
-                firstResponder()?.insertText(text)
+                if currentOperator == "" {
+                    firstResponder()?.insertText(text)
+                } else {
+                    if operateNumber == 0 {
+                        firstResponder()?.text = ""
+                    }
+                    firstResponder()?.insertText(text)
+                    let number:Int? = Int(firstResponder()?.text ?? "0")
+                    operateNumber = number ?? 0
+                }
             }
         }
         /*
@@ -435,6 +486,26 @@ open class CustomKeyboard: UIInputView, UITextFieldDelegate, UIGestureRecognizer
         
         // 添加长按手势
         button.addGestureRecognizer(longPress)
+    }
+    
+    /// 处理运算
+    private func calculateOperator(button: UIButton) {
+        
+        let number:Int? = Int(firstResponder()?.text ?? "0")
+        previousNumber = number ?? 0
+        
+        switch button.tag {
+        case 12 + 1:                  // 除
+            currentOperator = "➗"
+        case 13 + 1:                 // 乘
+            currentOperator = "✖️"
+        case 14 + 1:                 // 减
+            currentOperator = "➖"
+        case 15 + 1:                 // 加
+            currentOperator = "➕"
+        default:
+            currentOperator = ""
+        }
     }
 
     /// 删除按钮长按事件
