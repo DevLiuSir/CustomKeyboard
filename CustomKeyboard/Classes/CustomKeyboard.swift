@@ -74,6 +74,14 @@ open class CustomKeyboard: UIInputView, UITextFieldDelegate, UIGestureRecognizer
             guard let itemButton = findButton(by: self.keyboardStyle == .custom ? 16 + 1 : 13 + 1) else {
                 fatalError("not found the button with the tag")
             }
+            
+            for tag in [12 + 1, 13 + 1, 14 + 1, 15 + 1] {
+                guard let operatorButton = findButton(by: tag) else {
+                    fatalError("not found the button with the tag")
+                }
+                operatorButton.isSelected = false
+            }
+            
             itemButton.isSelected = !(currentOperator == "")
         }
     }
@@ -354,7 +362,8 @@ open class CustomKeyboard: UIInputView, UITextFieldDelegate, UIGestureRecognizer
                 button.titleLabel?.font = UIFont.init(name: "HiraKakuProN-W6", size: 25.0)
                 button.setTitleColor(customKeyboardNumberColor, for: .normal)
                 button.backgroundColor = .clear
-                
+//                button.adjustsImageWhenHighlighted = false;
+
                 switch idx {    // tag值
                 case 9:         //包含0, 所以当前是第10个按钮
                     button.setTitle("00", for: .normal)
@@ -366,15 +375,19 @@ open class CustomKeyboard: UIInputView, UITextFieldDelegate, UIGestureRecognizer
                     button.setImage(backSpace, for: .normal)
                 case 12:
                     button.setTitle("➗", for: .normal)
+                    button.setTitle("／", for: .selected)
                 case 13:
                     button.setTitle("✖️", for: .normal)
+                    button.setTitle("Ｘ", for: .selected)
                 case 14:
                     button.setTitle("➖", for: .normal)
+                    button.setTitle("ー", for: .selected)
                 case 15:
                     button.setTitle("➕", for: .normal)
+                    button.setTitle("＋", for: .selected)
                 case 16:        // 完成按钮
                     button.titleLabel?.font = UIFont.init(name: "HiraKakuProN-W6", size: 17.0)
-                    button.setTitleColor(UIColor.black, for: .normal)
+                    button.setTitleColor(UIColor.white, for: .normal)
                     button.setTitle("確定", for: .normal)
                     button.setTitle("＝", for: .selected)
                 default:        // 数字按钮
@@ -498,7 +511,20 @@ open class CustomKeyboard: UIInputView, UITextFieldDelegate, UIGestureRecognizer
     private func handleDelete(button: UIButton) {
         
         // 单击删除
-        firstResponder()?.deleteBackward()
+        switch keyboardStyle {
+        case .decimal, .idcard, .number:
+            firstResponder()?.deleteBackward()
+        case .custom:
+            if firstResponder()?.text?.count ?? 0 > 0 && firstResponder()?.text != "0" {
+                firstResponder()?.deleteBackward()
+            } else if (currentOperator != "") {
+                currentOperator = ""
+            }
+            
+            if firstResponder()?.text == "" {
+                firstResponder()?.text = "0"
+            }
+        }
         
         /// 创建长按手势
         let longPress = UILongPressGestureRecognizer(target: self, action: #selector(deleteLongPressed))
@@ -529,6 +555,7 @@ open class CustomKeyboard: UIInputView, UITextFieldDelegate, UIGestureRecognizer
         default:
             currentOperator = ""
         }
+        button.isSelected = true
     }
     
     @objc func formatTextField() {
