@@ -12,6 +12,11 @@ import UIKit
 let screenWith = UIScreen.main.bounds.size.width
 /// 默认完成按钮颜色
 public let defaultDoneColor = UIColor(red:0.45, green:0.69, blue:0.95, alpha:1.00)
+/// custom background
+public let customKeyboardBackgroundColor = UIColor(red:59.0/255.0, green:66.0/255.0, blue:71.0/255.0, alpha:1.00)
+public let customKeyboardNumberColor = UIColor(red:242.0/255.0, green:243.0/255.0, blue:243.0/255.0, alpha:1.00)
+
+
 
 /// 键盘样式
 ///
@@ -125,10 +130,12 @@ open class CustomKeyboard: UIInputView, UITextFieldDelegate, UIGestureRecognizer
     public convenience init(_ view: UIView, field: UITextField? = nil, keyboardStyle: KeyboardStyle) {
         
         self.init(frame: CGRect.zero, inputViewStyle: .keyboard)
+        
         titles = (keyboardStyle == .custom ? ["7", "8", "9", "4", "5", "6", "1", "2", "3"] : ["1", "2", "3", "4", "5", "6", "7", "8", "9"])
         buttonsCount = (keyboardStyle == .custom ? 17 : 14)
+        backgroundColor = (keyboardStyle == .custom ? customKeyboardBackgroundColor : .white)
+
         self.keyboardStyle = keyboardStyle
-        backgroundColor = .white
         addKeyboard(view, field: field)
     }
     
@@ -241,7 +248,7 @@ open class CustomKeyboard: UIInputView, UITextFieldDelegate, UIGestureRecognizer
         if let selector = callback, let target = target {
             itemButton.addTarget(target, action: selector, for: .touchUpInside)
         }
-        itemButton.titleLabel?.font = UIFont.systemFont(ofSize: 17)
+        itemButton.titleLabel?.font = UIFont.init(name: "HiraKakuProN-W6", size: 17.0)
         itemButton.setTitle(title, for: .normal)
         itemButton.backgroundColor = theme
         itemButton.setTitleColor(titleColor, for: .normal)
@@ -340,8 +347,9 @@ open class CustomKeyboard: UIInputView, UITextFieldDelegate, UIGestureRecognizer
             for idx in 0 ..< buttonsCount {
                 let button = UIButton()
                 button.titleLabel?.font = UIFont.systemFont(ofSize: 25)
-                button.setTitleColor(UIColor.black, for: .normal)
-
+                button.setTitleColor(customKeyboardNumberColor, for: .normal)
+                button.backgroundColor = .clear
+                
                 switch idx {    // tag值
                 case 9:         //包含0, 所以当前是第10个按钮
                     button.setTitle("00", for: .normal)
@@ -351,7 +359,6 @@ open class CustomKeyboard: UIInputView, UITextFieldDelegate, UIGestureRecognizer
                 case 11:        // 退格键
                     button.setTitle("", for: .normal)
                     button.setImage(backSpace, for: .normal)
-                    button.backgroundColor = .white
                 case 12:
                     button.setTitle("➗", for: .normal)
                 case 13:
@@ -361,7 +368,7 @@ open class CustomKeyboard: UIInputView, UITextFieldDelegate, UIGestureRecognizer
                 case 15:
                     button.setTitle("➕", for: .normal)
                 case 16:        // 完成按钮
-                    button.titleLabel?.font = UIFont.systemFont(ofSize: 17)
+                    button.titleLabel?.font = UIFont.init(name: "HiraKakuProN-W6", size: 17.0)
                     button.setTitleColor(UIColor.black, for: .normal)
                     button.setTitle("確定", for: .normal)
                     button.setTitle("＝", for: .selected)
@@ -431,6 +438,9 @@ open class CustomKeyboard: UIInputView, UITextFieldDelegate, UIGestureRecognizer
                     }
                 }
             default:                        // 其他按钮文本框插入当前输入文本
+                if previousNumber == 0 && firstResponder()?.text == "0" && text != "0" {
+                    firstResponder()?.text = ""
+                }
                 if currentOperator == "" {
                     firstResponder()?.insertText(text)
                 } else {
@@ -440,6 +450,10 @@ open class CustomKeyboard: UIInputView, UITextFieldDelegate, UIGestureRecognizer
                     firstResponder()?.insertText(text)
                     let number:Int? = Int(firstResponder()?.text ?? "0")
                     operateNumber = number ?? 0
+                }
+                let numberStr = firstResponder()?.text ?? "0"
+                if Int(numberStr) == 0 {
+                    firstResponder()?.text = "0"
                 }
             }
         }

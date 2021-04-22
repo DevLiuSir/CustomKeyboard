@@ -25,6 +25,7 @@ class ViewController: UIViewController {
         /// 文本框
         let textField = UITextField(frame: CGRect(x: 100, y: 120, width: 200, height: 35))
         textField.borderStyle = .roundedRect
+        textField.text = "0"
         view.addSubview(textField)
         
         /* -- CustomKeyboard --- */
