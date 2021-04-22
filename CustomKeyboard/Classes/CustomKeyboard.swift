@@ -39,6 +39,8 @@ public enum KeyboardStyle {
 open class CustomKeyboard: UIInputView, UITextFieldDelegate, UIGestureRecognizerDelegate {
     
     // MARK: - 属性
+    public var didChangeText: (String) -> () = { _ in }
+    
     // 存储属性
     public static let `default` = CustomKeyboard(frame: CGRect(x: 0, y: 0, width: screenWith, height: 300), inputViewStyle: .keyboard)
     
@@ -56,6 +58,9 @@ open class CustomKeyboard: UIInputView, UITextFieldDelegate, UIGestureRecognizer
 
     /// 按钮文字
     fileprivate var titles: Array<String>
+    
+    /// 操作数字符
+    var textFieldNumberText: String = "0"
     
     /// 操作数
     fileprivate var previousNumber: Int = 0
@@ -416,31 +421,32 @@ open class CustomKeyboard: UIInputView, UITextFieldDelegate, UIGestureRecognizer
                 if currentOperator == "" {
                     firstResponder()?.resignFirstResponder()
                 } else {
-                    if operateNumber != 0 {
-                        var finalNumber = 0
-                        switch currentOperator {
-                        case "➗":
-                            finalNumber = previousNumber / operateNumber
-                        case "✖️":
-                            finalNumber = previousNumber * operateNumber
-                        case "➖":
-                            finalNumber = previousNumber - operateNumber
-                        case "➕":
-                            finalNumber = previousNumber + operateNumber
-                        default:
-                            finalNumber = 0
-                        }
-                        firstResponder()?.text = ""
-                        firstResponder()?.insertText(String(finalNumber))
-                        currentOperator = ""
-                        operateNumber = 0
-                        previousNumber = 0
+                    var finalNumber = 0
+                    switch currentOperator {
+                    case "➗":
+                        finalNumber = previousNumber / operateNumber
+                    case "✖️":
+                        finalNumber = previousNumber * operateNumber
+                    case "➖":
+                        finalNumber = previousNumber - operateNumber
+                    case "➕":
+                        finalNumber = previousNumber + operateNumber
+                    default:
+                        finalNumber = 0
                     }
+                    firstResponder()?.text = ""
+                    firstResponder()?.insertText(String(finalNumber))
+                    currentOperator = ""
+                    operateNumber = 0
+                    previousNumber = 0
+                    
+                    formatTextField()
                 }
             default:                        // 其他按钮文本框插入当前输入文本
                 if previousNumber == 0 && firstResponder()?.text == "0" && text != "0" {
                     firstResponder()?.text = ""
                 }
+                
                 if currentOperator == "" {
                     firstResponder()?.insertText(text)
                 } else {
@@ -451,10 +457,13 @@ open class CustomKeyboard: UIInputView, UITextFieldDelegate, UIGestureRecognizer
                     let number:Int? = Int(firstResponder()?.text ?? "0")
                     operateNumber = number ?? 0
                 }
+                
                 let numberStr = firstResponder()?.text ?? "0"
                 if Int(numberStr) == 0 {
                     firstResponder()?.text = "0"
                 }
+                
+                formatTextField()
             }
         }
         /*
@@ -505,7 +514,7 @@ open class CustomKeyboard: UIInputView, UITextFieldDelegate, UIGestureRecognizer
     /// 处理运算
     private func calculateOperator(button: UIButton) {
         
-        let number:Int? = Int(firstResponder()?.text ?? "0")
+        let number:Int? = Int(textFieldNumberText)
         previousNumber = number ?? 0
         
         switch button.tag {
@@ -519,6 +528,32 @@ open class CustomKeyboard: UIInputView, UITextFieldDelegate, UIGestureRecognizer
             currentOperator = "➕"
         default:
             currentOperator = ""
+        }
+    }
+    
+    @objc func formatTextField() {
+        let rawText = firstResponder()?.text?.components(separatedBy: ",").joined() ?? ""
+        var newText = String(rawText)
+        textFieldNumberText = newText
+        var spaceIndex = Array<Int>.init()
+        for i in 1 ... newText.count {
+            if i % 3 == 0 {
+                spaceIndex.insert(i, at: 0)
+            }
+        }
+        
+        for index in spaceIndex {
+            guard newText.count >= index + 1 else { continue }
+            newText.insert(",", at: String.Index(utf16Offset: newText.count - index, in: newText))
+        }
+        
+        setText(newText)
+        didChangeText(textFieldNumberText)
+    }
+    
+    func setText(_ text: String?) {
+        if firstResponder()?.text != text {
+            firstResponder()?.text = text
         }
     }
 
