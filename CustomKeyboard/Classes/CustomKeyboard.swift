@@ -456,7 +456,7 @@ open class CustomKeyboard: UIInputView, UITextFieldDelegate, UIGestureRecognizer
                     formatTextField()
                 }
             default:                        // 其他按钮文本框插入当前输入文本
-                if previousNumber == 0 && firstResponder()?.text == "0" && text != "0" {
+                if firstResponder()?.text == "0" && text != "0" {
                     firstResponder()?.text = ""
                 }
                 
@@ -467,8 +467,6 @@ open class CustomKeyboard: UIInputView, UITextFieldDelegate, UIGestureRecognizer
                         firstResponder()?.text = ""
                     }
                     firstResponder()?.insertText(text)
-                    let number:Int? = Int(firstResponder()?.text ?? "0")
-                    operateNumber = number ?? 0
                 }
                 
                 let numberStr = firstResponder()?.text ?? "0"
@@ -511,20 +509,11 @@ open class CustomKeyboard: UIInputView, UITextFieldDelegate, UIGestureRecognizer
     private func handleDelete(button: UIButton) {
         
         // 单击删除
-        switch keyboardStyle {
-        case .decimal, .idcard, .number:
-            firstResponder()?.deleteBackward()
-        case .custom:
-            if firstResponder()?.text?.count ?? 0 > 0 && firstResponder()?.text != "0" {
-                firstResponder()?.deleteBackward()
-            } else if (currentOperator != "") {
-                currentOperator = ""
-            }
-            
-            if firstResponder()?.text == "" {
-                firstResponder()?.text = "0"
-            }
+        firstResponder()?.deleteBackward()
+        if firstResponder()?.text == "" {
+            firstResponder()?.text = "0"
         }
+        formatTextField()
         
         /// 创建长按手势
         let longPress = UILongPressGestureRecognizer(target: self, action: #selector(deleteLongPressed))
@@ -540,8 +529,8 @@ open class CustomKeyboard: UIInputView, UITextFieldDelegate, UIGestureRecognizer
     /// 处理运算
     private func calculateOperator(button: UIButton) {
         
-        let number:Int? = Int(textFieldNumberText)
-        previousNumber = number ?? 0
+//        let number:Int? = Int(textFieldNumberText)
+//        previousNumber = number ?? 0
         
         switch button.tag {
         case 12 + 1:                  // 除
@@ -572,6 +561,13 @@ open class CustomKeyboard: UIInputView, UITextFieldDelegate, UIGestureRecognizer
         for index in spaceIndex {
             guard newText.count >= index + 1 else { continue }
             newText.insert(",", at: String.Index(utf16Offset: newText.count - index, in: newText))
+        }
+        
+        let number:Int? = Int(textFieldNumberText)
+        if currentOperator == "" {
+            previousNumber = number ?? 0
+        } else {
+            operateNumber = number ?? 0
         }
         
         setText(newText)
