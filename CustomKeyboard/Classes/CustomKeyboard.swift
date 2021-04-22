@@ -509,7 +509,21 @@ open class CustomKeyboard: UIInputView, UITextFieldDelegate, UIGestureRecognizer
     private func handleDelete(button: UIButton) {
         
         // 单击删除
-        firstResponder()?.deleteBackward()
+        
+        switch keyboardStyle {
+        case .decimal, .idcard, .number:
+            firstResponder()?.deleteBackward()
+        case .custom:
+            if previousNumber != 0 && currentOperator != "" && operateNumber != 0{
+                firstResponder()?.deleteBackward()
+            } else if (previousNumber != 0 && currentOperator != "" && operateNumber == 0) {
+                currentOperator = ""
+                firstResponder()?.text = String(previousNumber)
+            } else if (previousNumber != 0 && currentOperator == "") {
+                firstResponder()?.deleteBackward()
+            }
+        }
+        
         if firstResponder()?.text == "" {
             firstResponder()?.text = "0"
         }
