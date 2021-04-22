@@ -66,7 +66,7 @@ open class CustomKeyboard: UIInputView, UITextFieldDelegate, UIGestureRecognizer
     fileprivate var previousNumber: Int = 0
     
     /// 被操作数
-    fileprivate var operateNumber: Int = 0
+    fileprivate var operateNumber: Int = -1
     
     /// 操作符
     fileprivate var currentOperator: String = "" {
@@ -434,28 +434,7 @@ open class CustomKeyboard: UIInputView, UITextFieldDelegate, UIGestureRecognizer
                 if currentOperator == "" {
                     firstResponder()?.resignFirstResponder()
                 } else {
-                    var finalNumber = 0
-                    switch currentOperator {
-                    case "➗":
-                        if operateNumber != 0 {
-                            finalNumber = previousNumber / operateNumber
-                        }
-                    case "✖️":
-                        finalNumber = previousNumber * operateNumber
-                    case "➖":
-                        finalNumber = previousNumber - operateNumber
-                    case "➕":
-                        finalNumber = previousNumber + operateNumber
-                    default:
-                        finalNumber = 0
-                    }
-                    firstResponder()?.text = ""
-                    firstResponder()?.insertText(String(finalNumber))
-                    currentOperator = ""
-                    operateNumber = 0
-                    previousNumber = 0
-                    
-                    formatTextField()
+                    calculate()
                 }
             default:                        // 其他按钮文本框插入当前输入文本
                 if firstResponder()?.text == "0" && text != "0" {
@@ -465,7 +444,7 @@ open class CustomKeyboard: UIInputView, UITextFieldDelegate, UIGestureRecognizer
                 if currentOperator == "" {
                     firstResponder()?.insertText(text)
                 } else {
-                    if operateNumber == 0 {
+                    if operateNumber == 0 || operateNumber == -1 {
                         firstResponder()?.text = ""
                     }
                     firstResponder()?.insertText(text)
@@ -518,10 +497,14 @@ open class CustomKeyboard: UIInputView, UITextFieldDelegate, UIGestureRecognizer
         case .custom:
             if previousNumber != 0 && currentOperator != "" && operateNumber != 0{
                 firstResponder()?.deleteBackward()
-            } else if (previousNumber != 0 && currentOperator != "" && operateNumber == 0) {
+            } else if (previousNumber != 0 && currentOperator != "" && (operateNumber == 0 || operateNumber == -1)) {
                 currentOperator = ""
                 firstResponder()?.text = String(previousNumber)
             } else if (previousNumber != 0 && currentOperator == "") {
+                firstResponder()?.deleteBackward()
+            }
+            
+            if firstResponder()?.text == "-" {
                 firstResponder()?.deleteBackward()
             }
         }
@@ -545,8 +528,9 @@ open class CustomKeyboard: UIInputView, UITextFieldDelegate, UIGestureRecognizer
     /// 处理运算
     private func calculateOperator(button: UIButton) {
         
-//        let number:Int? = Int(textFieldNumberText)
-//        previousNumber = number ?? 0
+        if currentOperator != "" {
+            calculate()
+        }
         
         switch button.tag {
         case 12 + 1:                  // 除
@@ -561,6 +545,33 @@ open class CustomKeyboard: UIInputView, UITextFieldDelegate, UIGestureRecognizer
             currentOperator = ""
         }
         button.isSelected = true
+    }
+    
+    private func calculate() {
+        if operateNumber >= 0 {
+            var finalNumber = 0
+            switch currentOperator {
+            case "➗":
+                if operateNumber != 0 {
+                    finalNumber = previousNumber / operateNumber
+                }
+            case "✖️":
+                finalNumber = previousNumber * operateNumber
+            case "➖":
+                finalNumber = previousNumber - operateNumber
+            case "➕":
+                finalNumber = previousNumber + operateNumber
+            default:
+                finalNumber = 0
+            }
+            firstResponder()?.text = ""
+            firstResponder()?.insertText(String(finalNumber))
+            currentOperator = ""
+            operateNumber = 0
+            previousNumber = 0
+            
+            formatTextField()
+        }
     }
     
     @objc func formatTextField() {
@@ -629,7 +640,7 @@ open class CustomKeyboard: UIInputView, UITextFieldDelegate, UIGestureRecognizer
             // 获取按钮
             guard let button = subviews[i] as? UIButton else { return }
             // 如何是确定按钮就直接返回
-            if button.tag == 13 + 1 { return }
+            if button.tag == (keyboardStyle == .custom ? 16 + 1 : 13 + 1) { return }
             if heghlight {
                 button.setBackgroundImage(UIImage.dk_image(with: .clear), for: .normal)
                 button.setBackgroundImage(UIImage.dk_image(with: .lightGray), for: .highlighted)
