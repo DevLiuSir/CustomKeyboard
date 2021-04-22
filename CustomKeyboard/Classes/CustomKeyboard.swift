@@ -437,7 +437,9 @@ open class CustomKeyboard: UIInputView, UITextFieldDelegate, UIGestureRecognizer
                     var finalNumber = 0
                     switch currentOperator {
                     case "➗":
-                        finalNumber = previousNumber / operateNumber
+                        if operateNumber != 0 {
+                            finalNumber = previousNumber / operateNumber
+                        }
                     case "✖️":
                         finalNumber = previousNumber * operateNumber
                     case "➖":
