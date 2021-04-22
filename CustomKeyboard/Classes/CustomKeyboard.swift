@@ -346,7 +346,7 @@ open class CustomKeyboard: UIInputView, UITextFieldDelegate, UIGestureRecognizer
         case .custom:
             for idx in 0 ..< buttonsCount {
                 let button = UIButton()
-                button.titleLabel?.font = UIFont.systemFont(ofSize: 25)
+                button.titleLabel?.font = UIFont.init(name: "HiraKakuProN-W6", size: 25.0)
                 button.setTitleColor(customKeyboardNumberColor, for: .normal)
                 button.backgroundColor = .clear
                 

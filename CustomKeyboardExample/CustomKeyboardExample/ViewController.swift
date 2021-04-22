@@ -10,6 +10,7 @@ import UIKit
 
 /// 淡蓝色
 let lightBlue = UIColor(red:0.45, green:0.69, blue:0.95, alpha:1.00)
+let lightOrange = UIColor(red:255.0/255.0, green:128.0/255.0, blue:0.0, alpha:1.00)
 
 class ViewController: UIViewController {
     
@@ -33,7 +34,7 @@ class ViewController: UIViewController {
         keyboard.isEnableKeyboard = true
         keyboard.whetherHighlight = true
         keyboard.frame.size.height = 300
-        keyboard.customDoneButton(title: "确定", titleColor: .white, theme: lightBlue, target: self, callback: nil)
+        keyboard.customDoneButton(title: "确定", titleColor: .white, theme: lightOrange, target: self, callback: nil)
         textField.becomeFirstResponder()
     }
 }
