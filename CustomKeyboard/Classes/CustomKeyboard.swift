@@ -316,9 +316,46 @@ open class CustomKeyboard: UIInputView, UITextFieldDelegate, UIGestureRecognizer
             return
         }
         // 设置图片
-        backSpace = UIImage(named: "Keyboard_Backspace", in: bundle, compatibleWith: nil)
-        dismiss = UIImage(named: "Keyboard_DismissKey", in: bundle, compatibleWith: nil)
+        
+        //calculate operator image
+        var plus: UIImage?
+        var subtract: UIImage?
+        var multiply: UIImage?
+        var divide: UIImage?
+        
+        var plusSelected: UIImage?
+        var subtractSelected: UIImage?
+        var multiplySelected: UIImage?
+        var divideSelected: UIImage?
 
+        switch keyboardStyle {
+        case .decimal, .idcard, .number:
+            backSpace = UIImage(named: "Keyboard_Backspace", in: bundle, compatibleWith: nil)
+            dismiss = UIImage(named: "Keyboard_DismissKey", in: bundle, compatibleWith: nil)
+            break;
+        case .custom:
+            backSpace = UIImage(named: "delete_1", in: bundle, compatibleWith: nil)
+            plus = UIImage(named: "+", in: bundle, compatibleWith: nil)
+            subtract = UIImage(named: "-", in: bundle, compatibleWith: nil)
+            multiply = UIImage(named: "×", in: bundle, compatibleWith: nil)
+            divide = UIImage(named: "÷", in: bundle, compatibleWith: nil)
+            plusSelected = UIImage(named: "circle_selected_+", in: bundle, compatibleWith: nil)
+            subtractSelected = UIImage(named: "circle_selected_-", in: bundle, compatibleWith: nil)
+            multiplySelected = UIImage(named: "circle_selected_×", in: bundle, compatibleWith: nil)
+            divideSelected = UIImage(named: "circle_selected_÷", in: bundle, compatibleWith: nil)
+        }
+
+//        backSpace = UIImage(named: self.keyboardStyle == .custom ? "delete_1" : "Keyboard_Backspace")
+//        dismiss = UIImage(named: "Keyboard_DismissKey")
+//        plus = UIImage(named: "+")
+//        subtract = UIImage(named: "-")
+//        multiply = UIImage(named: "×")
+//        divide = UIImage(named: "÷")
+//        plusSelected = UIImage(named: "circle_selected_+")
+//        subtractSelected = UIImage(named: "circle_selected_-")
+//        multiplySelected = UIImage(named: "circle_selected_×")
+//        divideSelected = UIImage(named: "circle_selected_÷")
+        
         /* 创建键盘视图上所有的按钮 */
         
         switch keyboardStyle {
@@ -362,7 +399,6 @@ open class CustomKeyboard: UIInputView, UITextFieldDelegate, UIGestureRecognizer
                 button.titleLabel?.font = UIFont.init(name: "HiraKakuProN-W6", size: 25.0)
                 button.setTitleColor(customKeyboardNumberColor, for: .normal)
                 button.backgroundColor = .clear
-//                button.adjustsImageWhenHighlighted = false;
 
                 switch idx {    // tag值
                 case 9:         //包含0, 所以当前是第10个按钮
@@ -374,17 +410,25 @@ open class CustomKeyboard: UIInputView, UITextFieldDelegate, UIGestureRecognizer
                     button.setTitle("", for: .normal)
                     button.setImage(backSpace, for: .normal)
                 case 12:
-                    button.setTitle("➗", for: .normal)
-                    button.setTitle("／", for: .selected)
+                    button.setTitle("", for: .normal)
+                    button.imageView?.contentMode = .scaleAspectFit
+                    button.setImage(divide, for: .normal)
+                    button.setImage(divideSelected, for: .selected)
                 case 13:
-                    button.setTitle("✖️", for: .normal)
-                    button.setTitle("Ｘ", for: .selected)
+                    button.setTitle("", for: .normal)
+                    button.imageView?.contentMode = .scaleAspectFit
+                    button.setImage(multiply, for: .normal)
+                    button.setImage(multiplySelected, for: .selected)
                 case 14:
-                    button.setTitle("➖", for: .normal)
-                    button.setTitle("ー", for: .selected)
+                    button.setTitle("", for: .normal)
+                    button.imageView?.contentMode = .scaleAspectFit
+                    button.setImage(subtract, for: .normal)
+                    button.setImage(subtractSelected, for: .selected)
                 case 15:
-                    button.setTitle("➕", for: .normal)
-                    button.setTitle("＋", for: .selected)
+                    button.setTitle("", for: .normal)
+                    button.imageView?.contentMode = .scaleAspectFit
+                    button.setImage(plus, for: .normal)
+                    button.setImage(plusSelected, for: .selected)
                 case 16:        // 完成按钮
                     button.titleLabel?.font = UIFont.init(name: "HiraKakuProN-W6", size: 17.0)
                     button.setTitleColor(UIColor.white, for: .normal)
@@ -495,12 +539,12 @@ open class CustomKeyboard: UIInputView, UITextFieldDelegate, UIGestureRecognizer
         case .decimal, .idcard, .number:
             firstResponder()?.deleteBackward()
         case .custom:
-            if previousNumber != 0 && currentOperator != "" && operateNumber != 0{
+            if currentOperator != "" && operateNumber != 0{
                 firstResponder()?.deleteBackward()
-            } else if (previousNumber != 0 && currentOperator != "" && (operateNumber == 0 || operateNumber == -1)) {
+            } else if (currentOperator != "" && (operateNumber == 0 || operateNumber == -1)) {
                 currentOperator = ""
                 firstResponder()?.text = String(previousNumber)
-            } else if (previousNumber != 0 && currentOperator == "") {
+            } else if (currentOperator == "") {
                 firstResponder()?.deleteBackward()
             }
             
@@ -567,7 +611,7 @@ open class CustomKeyboard: UIInputView, UITextFieldDelegate, UIGestureRecognizer
             firstResponder()?.text = ""
             firstResponder()?.insertText(String(finalNumber))
             currentOperator = ""
-            operateNumber = 0
+            operateNumber = -1
             previousNumber = 0
             
             formatTextField()
@@ -641,6 +685,7 @@ open class CustomKeyboard: UIInputView, UITextFieldDelegate, UIGestureRecognizer
             guard let button = subviews[i] as? UIButton else { return }
             // 如何是确定按钮就直接返回
             if button.tag == (keyboardStyle == .custom ? 16 + 1 : 13 + 1) { return }
+            if keyboardStyle == .custom && [11 + 1, 12 + 1, 13 + 1, 14 + 1, 15 + 1].contains(button.tag) { return }
             if heghlight {
                 button.setBackgroundImage(UIImage.dk_image(with: .clear), for: .normal)
                 button.setBackgroundImage(UIImage.dk_image(with: .lightGray), for: .highlighted)
