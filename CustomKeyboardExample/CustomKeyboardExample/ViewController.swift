@@ -33,7 +33,7 @@ class ViewController: UIViewController {
         let keyboard = CustomKeyboard(view, field: textField, keyboardStyle: .custom)
         keyboard.isEnableKeyboard = true
         keyboard.whetherHighlight = true
-        keyboard.frame.size.height = 300
+        keyboard.frame.size.height = 376 + 50
         keyboard.customDoneButton(title: "确定", titleColor: .white, theme: lightOrange, target: self, callback: #selector(createPurchase))
         textField.becomeFirstResponder()
         

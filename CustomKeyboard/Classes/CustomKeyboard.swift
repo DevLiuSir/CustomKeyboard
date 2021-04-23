@@ -671,6 +671,14 @@ open class CustomKeyboard: UIInputView, UITextFieldDelegate, UIGestureRecognizer
             }
         }
         
+        let isMinusNumber = firstResponder()?.text?.contains("-")
+        print(firstResponder()?.text?.count ?? "")
+        if let aMinusNumber = isMinusNumber {
+            if aMinusNumber && (((firstResponder()?.text?.count ?? 0) - 1) % 3 == 0) {
+                spaceIndex.removeFirst()
+            }
+        }
+        
         for index in spaceIndex {
             guard newText.count >= index + 1 else { continue }
             newText.insert(",", at: String.Index(utf16Offset: newText.count - index, in: newText))
