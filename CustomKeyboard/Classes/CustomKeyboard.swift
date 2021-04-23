@@ -311,6 +311,12 @@ open class CustomKeyboard: UIInputView, UITextFieldDelegate, UIGestureRecognizer
         var subtractSelected: UIImage?
         var multiplySelected: UIImage?
         var divideSelected: UIImage?
+        var equal: UIImage?
+        
+        //number image
+        var doubleZero : UIImage?
+        var zero : UIImage?
+        var numberImages: Array<UIImage?>?
 
         // 获取指向类对象的引用，只需使用 ClassName.self
         let podBundle = Bundle(for: CustomKeyboard.self)
@@ -327,6 +333,16 @@ open class CustomKeyboard: UIInputView, UITextFieldDelegate, UIGestureRecognizer
             subtractSelected = UIImage(named: "circle_selected_-")
             multiplySelected = UIImage(named: "circle_selected_×")
             divideSelected = UIImage(named: "circle_selected_÷")
+            equal = UIImage(named: "=")
+            doubleZero = UIImage(named: "number_00")
+            zero = UIImage(named: "number_0")
+
+            var images:Array<UIImage?> = []
+            for idx in 0 ..< 9 {
+                let numberImage = UIImage(named: String.init(format: "number_%@", titles[idx]))
+                images.append(numberImage)
+            }
+            numberImages = images
             return
         }
         
@@ -341,6 +357,16 @@ open class CustomKeyboard: UIInputView, UITextFieldDelegate, UIGestureRecognizer
             subtractSelected = UIImage(named: "circle_selected_-")
             multiplySelected = UIImage(named: "circle_selected_×")
             divideSelected = UIImage(named: "circle_selected_÷")
+            equal = UIImage(named: "=")
+            doubleZero = UIImage(named: "number_00")
+            zero = UIImage(named: "number_0")
+
+            var images:Array<UIImage?> = []
+            for idx in 0 ..< 9 {
+                let numberImage = UIImage(named: String.init(format: "number_%@", titles[idx]))
+                images.append(numberImage)
+            }
+            numberImages = images
             return
         }
         
@@ -360,6 +386,14 @@ open class CustomKeyboard: UIInputView, UITextFieldDelegate, UIGestureRecognizer
             subtractSelected = UIImage(named: "circle_selected_-", in: bundle, compatibleWith: nil)
             multiplySelected = UIImage(named: "circle_selected_×", in: bundle, compatibleWith: nil)
             divideSelected = UIImage(named: "circle_selected_÷", in: bundle, compatibleWith: nil)
+            equal = UIImage(named: "=", in: bundle, compatibleWith: nil)
+
+            var images:Array<UIImage?> = []
+            for idx in 0 ..< 9 {
+                let numberImage = UIImage(named: String.init(format: "number_%@", titles[idx]), in: bundle, compatibleWith: nil)
+                images.append(numberImage)
+            }
+            numberImages = images
         }
         
         /* 创建键盘视图上所有的按钮 */
@@ -411,11 +445,11 @@ open class CustomKeyboard: UIInputView, UITextFieldDelegate, UIGestureRecognizer
                 case 9:         //包含0, 所以当前是第10个按钮
                     button.setTitle("", for: .normal)
                     button.setTitle("00", for: .reserved)
-                    button.setImage(UIImage(named: "number_00", in: bundle, compatibleWith: nil), for: .normal)
+                    button.setImage(doubleZero, for: .normal)
                 case 10:        // 0
                     button.setTitle("", for: .normal)
                     button.setTitle("0", for: .reserved)
-                    button.setImage(UIImage(named: "number_0", in: bundle, compatibleWith: nil), for: .normal)
+                    button.setImage(zero, for: .normal)
                     buttions.append(button)
                 case 11:        // 退格键
                     button.setTitle("", for: .normal)
@@ -441,10 +475,10 @@ open class CustomKeyboard: UIInputView, UITextFieldDelegate, UIGestureRecognizer
                     button.setTitleColor(UIColor.white, for: .normal)
                     button.setTitle("確定", for: .normal)
                     button.setTitle("", for: .selected)
-                    button.setImage(UIImage(named: "=", in: bundle, compatibleWith: nil), for: .selected)
+                    button.setImage(equal, for: .selected)
                 default:        // 数字按钮
                     button.setTitle(titles[idx], for: .reserved)
-                    button.setImage(UIImage(named: String.init(format: "number_%@", titles[idx]), in: bundle, compatibleWith: nil), for: .normal)
+                    button.setImage(numberImages![idx], for: .normal)
                     buttions.append(button)
                 }
                 button.addTarget(self, action: #selector(tap), for: .touchUpInside)
