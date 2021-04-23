@@ -301,22 +301,6 @@ open class CustomKeyboard: UIInputView, UITextFieldDelegate, UIGestureRecognizer
         /// 消失图片视图
         var dismiss: UIImage?
         
-        // 获取指向类对象的引用，只需使用 ClassName.self
-        let podBundle = Bundle(for: CustomKeyboard.self)
-        
-        // 获取当前类的文件路径
-        guard let bundleURL = podBundle.url(forResource: "CustomKeyboard", withExtension: "bundle") else {
-            backSpace = UIImage(named: "Keyboard_Backspace")
-            dismiss = UIImage(named: "Keyboard_DismissKey")
-            return
-        }
-        guard let bundle = Bundle(url: bundleURL) else {
-            backSpace = UIImage(named: "Keyboard_Backspace")
-            dismiss = UIImage(named: "Keyboard_DismissKey")
-            return
-        }
-        // 设置图片
-        
         //calculate operator image
         var plus: UIImage?
         var subtract: UIImage?
@@ -328,6 +312,39 @@ open class CustomKeyboard: UIInputView, UITextFieldDelegate, UIGestureRecognizer
         var multiplySelected: UIImage?
         var divideSelected: UIImage?
 
+        // 获取指向类对象的引用，只需使用 ClassName.self
+        let podBundle = Bundle(for: CustomKeyboard.self)
+
+        // 获取当前类的文件路径
+        guard let bundleURL = podBundle.url(forResource: "CustomKeyboard", withExtension: "bundle") else {
+            backSpace = UIImage(named: "Keyboard_Backspace")
+            dismiss = UIImage(named: "Keyboard_DismissKey")
+            plus = UIImage(named: "+")
+            subtract = UIImage(named: "-")
+            multiply = UIImage(named: "×")
+            divide = UIImage(named: "÷")
+            plusSelected = UIImage(named: "circle_selected_+")
+            subtractSelected = UIImage(named: "circle_selected_-")
+            multiplySelected = UIImage(named: "circle_selected_×")
+            divideSelected = UIImage(named: "circle_selected_÷")
+            return
+        }
+        
+        guard let bundle = Bundle(url: bundleURL) else {
+            backSpace = UIImage(named: "Keyboard_Backspace")
+            dismiss = UIImage(named: "Keyboard_DismissKey")
+            plus = UIImage(named: "+")
+            subtract = UIImage(named: "-")
+            multiply = UIImage(named: "×")
+            divide = UIImage(named: "÷")
+            plusSelected = UIImage(named: "circle_selected_+")
+            subtractSelected = UIImage(named: "circle_selected_-")
+            multiplySelected = UIImage(named: "circle_selected_×")
+            divideSelected = UIImage(named: "circle_selected_÷")
+            return
+        }
+        
+        //设置图片
         switch keyboardStyle {
         case .decimal, .idcard, .number:
             backSpace = UIImage(named: "Keyboard_Backspace", in: bundle, compatibleWith: nil)
@@ -344,17 +361,6 @@ open class CustomKeyboard: UIInputView, UITextFieldDelegate, UIGestureRecognizer
             multiplySelected = UIImage(named: "circle_selected_×", in: bundle, compatibleWith: nil)
             divideSelected = UIImage(named: "circle_selected_÷", in: bundle, compatibleWith: nil)
         }
-
-//        backSpace = UIImage(named: self.keyboardStyle == .custom ? "delete_1" : "Keyboard_Backspace")
-//        dismiss = UIImage(named: "Keyboard_DismissKey")
-//        plus = UIImage(named: "+")
-//        subtract = UIImage(named: "-")
-//        multiply = UIImage(named: "×")
-//        divide = UIImage(named: "÷")
-//        plusSelected = UIImage(named: "circle_selected_+")
-//        subtractSelected = UIImage(named: "circle_selected_-")
-//        multiplySelected = UIImage(named: "circle_selected_×")
-//        divideSelected = UIImage(named: "circle_selected_÷")
         
         /* 创建键盘视图上所有的按钮 */
         
@@ -399,34 +405,35 @@ open class CustomKeyboard: UIInputView, UITextFieldDelegate, UIGestureRecognizer
                 button.titleLabel?.font = UIFont.init(name: "HiraKakuProN-W6", size: 25.0)
                 button.setTitleColor(customKeyboardNumberColor, for: .normal)
                 button.backgroundColor = .clear
+                button.imageView?.contentMode = .scaleAspectFit
 
                 switch idx {    // tag值
                 case 9:         //包含0, 所以当前是第10个按钮
-                    button.setTitle("00", for: .normal)
+                    button.setTitle("", for: .normal)
+                    button.setTitle("00", for: .reserved)
+                    button.setImage(UIImage(named: "number_00", in: bundle, compatibleWith: nil), for: .normal)
                 case 10:        // 0
-                    button.setTitle("0", for: .normal)
+                    button.setTitle("", for: .normal)
+                    button.setTitle("0", for: .reserved)
+                    button.setImage(UIImage(named: "number_0", in: bundle, compatibleWith: nil), for: .normal)
                     buttions.append(button)
                 case 11:        // 退格键
                     button.setTitle("", for: .normal)
                     button.setImage(backSpace, for: .normal)
                 case 12:
                     button.setTitle("", for: .normal)
-                    button.imageView?.contentMode = .scaleAspectFit
                     button.setImage(divide, for: .normal)
                     button.setImage(divideSelected, for: .selected)
                 case 13:
                     button.setTitle("", for: .normal)
-                    button.imageView?.contentMode = .scaleAspectFit
                     button.setImage(multiply, for: .normal)
                     button.setImage(multiplySelected, for: .selected)
                 case 14:
                     button.setTitle("", for: .normal)
-                    button.imageView?.contentMode = .scaleAspectFit
                     button.setImage(subtract, for: .normal)
                     button.setImage(subtractSelected, for: .selected)
                 case 15:
                     button.setTitle("", for: .normal)
-                    button.imageView?.contentMode = .scaleAspectFit
                     button.setImage(plus, for: .normal)
                     button.setImage(plusSelected, for: .selected)
                 case 16:        // 完成按钮
@@ -435,7 +442,8 @@ open class CustomKeyboard: UIInputView, UITextFieldDelegate, UIGestureRecognizer
                     button.setTitle("確定", for: .normal)
                     button.setTitle("＝", for: .selected)
                 default:        // 数字按钮
-                    button.setTitle(titles[idx], for: .normal)
+                    button.setTitle(titles[idx], for: .reserved)
+                    button.setImage(UIImage(named: String.init(format: "number_%@", titles[idx]), in: bundle, compatibleWith: nil), for: .normal)
                     buttions.append(button)
                 }
                 button.addTarget(self, action: #selector(tap), for: .touchUpInside)
@@ -452,7 +460,7 @@ open class CustomKeyboard: UIInputView, UITextFieldDelegate, UIGestureRecognizer
     /// - Parameter sender: 按钮
     @objc func tap(_ sender: UIButton) {
         // 获取按钮的当前文字
-        guard let text = sender.currentTitle else {
+        guard let text = self.keyboardStyle == .custom ? sender.title(for: .reserved) : sender.currentTitle else {
             fatalError("not found the sender's currentTitle")
         }
         // 因为上文button的tag值加1, 所以值改变了
