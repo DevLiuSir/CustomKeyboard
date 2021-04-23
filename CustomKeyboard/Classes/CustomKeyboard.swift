@@ -591,7 +591,7 @@ open class CustomKeyboard: UIInputView, UITextFieldDelegate, UIGestureRecognizer
             // 添加长按手势
             button.addGestureRecognizer(longPress)
         case .custom:
-            if currentOperator != "" && operateNumber != 0{
+            if currentOperator != "" && operateNumber != -1{
                 firstResponder()?.deleteBackward()
             } else if (currentOperator != "" && (operateNumber == 0 || operateNumber == -1)) {
                 currentOperator = ""
