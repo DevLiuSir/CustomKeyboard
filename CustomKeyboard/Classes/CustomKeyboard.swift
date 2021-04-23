@@ -175,13 +175,13 @@ open class CustomKeyboard: UIInputView, UITextFieldDelegate, UIGestureRecognizer
         let columnsNum = 4
         
         /// 行数
-        let rowNum = keyboardStyle == .custom ? 5 : 4
+        let rowNum = 4
         
         /// 一个按钮的宽度
         let btnWidth = frame.width / CGFloat(columnsNum)
         
         /// 一个按钮的高度
-        let btnHeight = frame.height / CGFloat(rowNum)
+        let btnHeight = keyboardStyle == .custom ? (frame.height - 50) / CGFloat(rowNum) : frame.height / CGFloat(rowNum)
         
         /***循环布局12个按钮***/
         for i in 0...11 {
@@ -198,7 +198,7 @@ open class CustomKeyboard: UIInputView, UITextFieldDelegate, UIGestureRecognizer
             viewWithTag(13 + 1)?.frame = CGRect(x: btnWidth * 3, y: btnHeight, width: btnWidth, height: btnHeight)
             viewWithTag(14 + 1)?.frame = CGRect(x: btnWidth * 3, y: btnHeight * 2, width: btnWidth, height: btnHeight)
             viewWithTag(15 + 1)?.frame = CGRect(x: btnWidth * 3, y: btnHeight * 3, width: btnWidth, height: btnHeight)
-            viewWithTag(16 + 1)?.frame = CGRect(x: 0, y: btnHeight * 4, width: frame.width, height: btnHeight)
+            viewWithTag(16 + 1)?.frame = CGRect(x: 0, y: btnHeight * 4, width: frame.width, height: 50)
         } else {
             viewWithTag(12 + 1)?.frame = CGRect(x: btnWidth * 3, y: 1, width: btnWidth, height: btnHeight * 2 - 1)
             viewWithTag(13 + 1)?.frame = CGRect(x: btnWidth * 3, y: btnHeight * 2, width: btnWidth, height: btnHeight * 2)
@@ -440,7 +440,8 @@ open class CustomKeyboard: UIInputView, UITextFieldDelegate, UIGestureRecognizer
                     button.titleLabel?.font = UIFont.init(name: "HiraKakuProN-W6", size: 17.0)
                     button.setTitleColor(UIColor.white, for: .normal)
                     button.setTitle("確定", for: .normal)
-                    button.setTitle("＝", for: .selected)
+                    button.setTitle("", for: .selected)
+                    button.setImage(UIImage(named: "=", in: bundle, compatibleWith: nil), for: .selected)
                 default:        // 数字按钮
                     button.setTitle(titles[idx], for: .reserved)
                     button.setImage(UIImage(named: String.init(format: "number_%@", titles[idx]), in: bundle, compatibleWith: nil), for: .normal)
