@@ -546,6 +546,15 @@ open class CustomKeyboard: UIInputView, UITextFieldDelegate, UIGestureRecognizer
         switch keyboardStyle {
         case .decimal, .idcard, .number:
             firstResponder()?.deleteBackward()
+            /// 创建长按手势
+            let longPress = UILongPressGestureRecognizer(target: self, action: #selector(deleteLongPressed))
+            longPress.delegate = self
+            
+            // 设置最低长按时长 ( 以秒为单位 )
+            longPress.minimumPressDuration = 0.5
+            
+            // 添加长按手势
+            button.addGestureRecognizer(longPress)
         case .custom:
             if currentOperator != "" && operateNumber != 0{
                 firstResponder()?.deleteBackward()
@@ -559,22 +568,12 @@ open class CustomKeyboard: UIInputView, UITextFieldDelegate, UIGestureRecognizer
             if firstResponder()?.text == "-" {
                 firstResponder()?.deleteBackward()
             }
+            
+            if firstResponder()?.text == "" {
+                firstResponder()?.text = "0"
+            }
+            formatTextField()
         }
-        
-        if firstResponder()?.text == "" {
-            firstResponder()?.text = "0"
-        }
-        formatTextField()
-        
-        /// 创建长按手势
-        let longPress = UILongPressGestureRecognizer(target: self, action: #selector(deleteLongPressed))
-        longPress.delegate = self
-        
-        // 设置最低长按时长 ( 以秒为单位 )
-        longPress.minimumPressDuration = 0.5
-        
-        // 添加长按手势
-        button.addGestureRecognizer(longPress)
     }
     
     /// 处理运算
