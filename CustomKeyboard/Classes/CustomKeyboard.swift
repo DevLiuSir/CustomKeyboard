@@ -55,7 +55,7 @@ open class CustomKeyboard: UIInputView, UITextFieldDelegate, UIGestureRecognizer
     private var buttonsCount: Int = 14
     
     /// 按钮数组
-    fileprivate var buttions: [UIButton] = []
+    fileprivate var buttons: [UIButton] = []
 
     /// 按钮文字
     fileprivate var titles: Array<String>
@@ -435,7 +435,7 @@ open class CustomKeyboard: UIInputView, UITextFieldDelegate, UIGestureRecognizer
                 button.addTarget(self, action: #selector(tap), for: .touchUpInside)
                 addSubview(button)
                 button.tag = idx + 1
-                buttions.append(button)
+                buttons.append(button)
             }
         case .custom:
             for idx in 0 ..< buttonsCount {
@@ -487,7 +487,7 @@ open class CustomKeyboard: UIInputView, UITextFieldDelegate, UIGestureRecognizer
                 button.addTarget(self, action: #selector(tap), for: .touchUpInside)
                 addSubview(button)
                 button.tag = idx + 1
-                buttions.append(button)
+                buttons.append(button)
             }
         }
         
@@ -726,15 +726,12 @@ open class CustomKeyboard: UIInputView, UITextFieldDelegate, UIGestureRecognizer
     /// - Parameter heghlight: 是否高亮
     private func highlight(heghlight: Bool) {
                 
-        /// 获取当前视图的所有子视图的个数
-        let subviewCount = subviews.count
-        
         /// 获取当前视图的所有按钮的个数
-        let subviewBtnCout = subviewCount - 2
+        let subviewBtnCout = buttons.count
         
-        for i in 2 ... subviewBtnCout {
+        for i in 0 ... (subviewBtnCout - 1) {
             // 获取按钮
-            guard let button = subviews[i] as? UIButton else { return }
+            let button = buttons[i]
             // 如何是确定按钮就直接返回
             if button.tag == (keyboardStyle == .custom ? 16 + 1 : 13 + 1) { return }
             if keyboardStyle == .custom && [11 + 1, 12 + 1, 13 + 1, 14 + 1, 15 + 1].contains(button.tag) { return }
@@ -789,9 +786,9 @@ open class CustomKeyboard: UIInputView, UITextFieldDelegate, UIGestureRecognizer
     /// - Returns: 按钮
     private func findButton(by tag: Int) -> UIButton? {
         
-        for button in subviews {
+        for button in buttons {
             if button.tag == tag {
-                return button as? UIButton
+                return button
             }
         }
         return nil
