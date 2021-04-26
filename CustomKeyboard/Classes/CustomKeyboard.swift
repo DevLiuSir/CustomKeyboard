@@ -16,7 +16,13 @@ public let defaultDoneColor = UIColor(red:0.45, green:0.69, blue:0.95, alpha:1.0
 public let customKeyboardBackgroundColor = UIColor(red:59.0/255.0, green:66.0/255.0, blue:71.0/255.0, alpha:1.00)
 public let customKeyboardNumberColor = UIColor(red:242.0/255.0, green:243.0/255.0, blue:243.0/255.0, alpha:1.00)
 
-
+extension UIScreen {
+    func heightForBottomSafeArea() -> CGFloat {
+        guard let rootView = UIApplication.shared.keyWindow else { return 0 }
+        let bottomInset = rootView.safeAreaInsets.bottom
+        return bottomInset
+    }
+}
 
 /// 键盘样式
 ///
@@ -181,7 +187,7 @@ open class CustomKeyboard: UIInputView, UITextFieldDelegate, UIGestureRecognizer
         let btnWidth = frame.width / CGFloat(columnsNum)
         
         /// 一个按钮的高度
-        let btnHeight = keyboardStyle == .custom ? (frame.height - 50) / CGFloat(rowNum) : frame.height / CGFloat(rowNum)
+        let btnHeight = keyboardStyle == .custom ? (frame.height - 50 - UIScreen.main.heightForBottomSafeArea()) / CGFloat(rowNum) : frame.height / CGFloat(rowNum)
         
         /***循环布局12个按钮***/
         for i in 0...11 {
@@ -198,7 +204,8 @@ open class CustomKeyboard: UIInputView, UITextFieldDelegate, UIGestureRecognizer
             viewWithTag(13 + 1)?.frame = CGRect(x: btnWidth * 3, y: btnHeight, width: btnWidth, height: btnHeight)
             viewWithTag(14 + 1)?.frame = CGRect(x: btnWidth * 3, y: btnHeight * 2, width: btnWidth, height: btnHeight)
             viewWithTag(15 + 1)?.frame = CGRect(x: btnWidth * 3, y: btnHeight * 3, width: btnWidth, height: btnHeight)
-            viewWithTag(16 + 1)?.frame = CGRect(x: 0, y: btnHeight * 4, width: frame.width, height: 50)
+            viewWithTag(16 + 1)?.frame = CGRect(x: 0, y: btnHeight * 4, width: frame.width, height: 50 + UIScreen.main.heightForBottomSafeArea())
+            (viewWithTag(16 + 1) as! UIButton).titleEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: UIScreen.main.heightForBottomSafeArea(), right: 0)
         } else {
             viewWithTag(12 + 1)?.frame = CGRect(x: btnWidth * 3, y: 1, width: btnWidth, height: btnHeight * 2 - 1)
             viewWithTag(13 + 1)?.frame = CGRect(x: btnWidth * 3, y: btnHeight * 2, width: btnWidth, height: btnHeight * 2)
