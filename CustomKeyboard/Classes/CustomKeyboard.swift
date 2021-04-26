@@ -196,8 +196,7 @@ open class CustomKeyboard: UIInputView, UITextFieldDelegate, UIGestureRecognizer
             viewWithTag(13 + 1)?.frame = CGRect(x: btnWidth * 3, y: btnHeight, width: btnWidth, height: btnHeight)
             viewWithTag(14 + 1)?.frame = CGRect(x: btnWidth * 3, y: btnHeight * 2, width: btnWidth, height: btnHeight)
             viewWithTag(15 + 1)?.frame = CGRect(x: btnWidth * 3, y: btnHeight * 3, width: btnWidth, height: btnHeight)
-            viewWithTag(16 + 1)?.frame = CGRect(x: 0, y: btnHeight * 4, width: frame.width, height: 50 + UIScreen.main.heightForBottomSafeArea())
-            (viewWithTag(16 + 1) as! UIButton).titleEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: UIScreen.main.heightForBottomSafeArea(), right: 0)
+            viewWithTag(16 + 1)?.frame = CGRect(x: 0, y: btnHeight * 4, width: frame.width, height: 50)
         } else {
             viewWithTag(12 + 1)?.frame = CGRect(x: btnWidth * 3, y: 1, width: btnWidth, height: btnHeight * 2 - 1)
             viewWithTag(13 + 1)?.frame = CGRect(x: btnWidth * 3, y: btnHeight * 2, width: btnWidth, height: btnHeight * 2)
@@ -694,7 +693,10 @@ open class CustomKeyboard: UIInputView, UITextFieldDelegate, UIGestureRecognizer
         }
         
         setText(newText)
-        didChangeText(textFieldNumberText)
+        
+        if didChangeText != nil {
+            didChangeText(textFieldNumberText)
+        }
     }
     
     func setText(_ text: String?) {
