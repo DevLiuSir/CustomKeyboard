@@ -381,12 +381,16 @@ open class CustomKeyboard: UIInputView, UITextFieldDelegate, UIGestureRecognizer
             subtract = UIImage(named: "-", in: bundle, compatibleWith: nil)
             multiply = UIImage(named: "×", in: bundle, compatibleWith: nil)
             divide = UIImage(named: "÷", in: bundle, compatibleWith: nil)
+            
             plusSelected = UIImage(named: "circle_selected_+", in: bundle, compatibleWith: nil)
             subtractSelected = UIImage(named: "circle_selected_-", in: bundle, compatibleWith: nil)
             multiplySelected = UIImage(named: "circle_selected_×", in: bundle, compatibleWith: nil)
             divideSelected = UIImage(named: "circle_selected_÷", in: bundle, compatibleWith: nil)
             equal = UIImage(named: "=", in: bundle, compatibleWith: nil)
 
+            doubleZero = UIImage(named: "number_00", in: bundle, compatibleWith: nil)
+            zero = UIImage(named: "number_0", in: bundle, compatibleWith: nil)
+            
             var images:Array<UIImage?> = []
             for idx in 0 ..< 9 {
                 let numberImage = UIImage(named: String.init(format: "number_%@", titles[idx]), in: bundle, compatibleWith: nil)
