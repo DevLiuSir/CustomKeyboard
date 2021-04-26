@@ -679,7 +679,6 @@ open class CustomKeyboard: UIInputView, UITextFieldDelegate, UIGestureRecognizer
         }
         
         let isMinusNumber = firstResponder()?.text?.contains("-")
-        print(firstResponder()?.text?.count ?? "")
         if let aMinusNumber = isMinusNumber {
             if aMinusNumber && (((firstResponder()?.text?.count ?? 0) - 1) % 3 == 0) {
                 spaceIndex.removeFirst()
@@ -728,9 +727,7 @@ open class CustomKeyboard: UIInputView, UITextFieldDelegate, UIGestureRecognizer
     ///
     /// - Parameter heghlight: 是否高亮
     private func highlight(heghlight: Bool) {
-        
-        print(subviews.count)
-        
+                
         /// 获取当前视图的所有子视图的个数
         let subviewCount = subviews.count
         
