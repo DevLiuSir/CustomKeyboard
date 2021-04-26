@@ -15,6 +15,7 @@ public let defaultDoneColor = UIColor(red:0.45, green:0.69, blue:0.95, alpha:1.0
 /// custom background
 public let customKeyboardBackgroundColor = UIColor(red:59.0/255.0, green:66.0/255.0, blue:71.0/255.0, alpha:1.00)
 public let customKeyboardNumberColor = UIColor(red:242.0/255.0, green:243.0/255.0, blue:243.0/255.0, alpha:1.00)
+public let customKeyboardlightOrange = UIColor(red:255.0/255.0, green:128.0/255.0, blue:0.0, alpha:1.00)
 
 /// 键盘样式
 ///
@@ -38,6 +39,8 @@ open class CustomKeyboard: UIInputView, UITextFieldDelegate, UIGestureRecognizer
     
     // MARK: - 属性
     public var didChangeText: (String) -> () = { _ in }
+    
+    public var doneButtonClick: (String) -> () = { _ in }
     
     // 存储属性
     public static let `default` = CustomKeyboard(frame: CGRect(x: 0, y: 0, width: screenWith, height: 300), inputViewStyle: .keyboard)
@@ -413,7 +416,6 @@ open class CustomKeyboard: UIInputView, UITextFieldDelegate, UIGestureRecognizer
                     button.setImage(dismiss, for: .normal)
                 case 10:        // 0
                     button.setTitle("0", for: .normal)
-                    buttions.append(button)
                 case 11:        // 小数点
                     button.setTitle("X", for: .normal)
                 case 12:        // 退格键
@@ -429,11 +431,11 @@ open class CustomKeyboard: UIInputView, UITextFieldDelegate, UIGestureRecognizer
                     button.setTitle(LocalizedString("Done"), for: .normal)
                 default:        // 数字按钮
                     button.setTitle(titles[idx], for: .normal)
-                    buttions.append(button)
                 }
                 button.addTarget(self, action: #selector(tap), for: .touchUpInside)
                 addSubview(button)
                 button.tag = idx + 1
+                buttions.append(button)
             }
         case .custom:
             for idx in 0 ..< buttonsCount {
@@ -452,7 +454,6 @@ open class CustomKeyboard: UIInputView, UITextFieldDelegate, UIGestureRecognizer
                     button.setTitle("", for: .normal)
                     button.setTitle("0", for: .reserved)
                     button.setImage(zero, for: .normal)
-                    buttions.append(button)
                 case 11:        // 退格键
                     button.setTitle("", for: .normal)
                     button.setImage(backSpace, for: .normal)
@@ -475,17 +476,18 @@ open class CustomKeyboard: UIInputView, UITextFieldDelegate, UIGestureRecognizer
                 case 16:        // 完成按钮
                     button.titleLabel?.font = UIFont.init(name: "HiraKakuProN-W6", size: 17.0)
                     button.setTitleColor(UIColor.white, for: .normal)
+                    button.backgroundColor = customKeyboardlightOrange
                     button.setTitle("確定", for: .normal)
                     button.setTitle("", for: .selected)
                     button.setImage(equal, for: .selected)
                 default:        // 数字按钮
                     button.setTitle(titles[idx], for: .reserved)
                     button.setImage(numberImages![idx], for: .normal)
-                    buttions.append(button)
                 }
                 button.addTarget(self, action: #selector(tap), for: .touchUpInside)
                 addSubview(button)
                 button.tag = idx + 1
+                buttions.append(button)
             }
         }
         
@@ -658,6 +660,7 @@ open class CustomKeyboard: UIInputView, UITextFieldDelegate, UIGestureRecognizer
             operateNumber = -1
             previousNumber = 0
             
+            doneButtonClick(firstResponder()?.text ?? "")
             formatTextField()
         }
     }
