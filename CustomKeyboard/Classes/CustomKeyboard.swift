@@ -693,10 +693,7 @@ open class CustomKeyboard: UIInputView, UITextFieldDelegate, UIGestureRecognizer
         }
         
         setText(newText)
-        
-        if didChangeText != nil {
-            didChangeText(textFieldNumberText)
-        }
+        didChangeText(textFieldNumberText)
     }
     
     func setText(_ text: String?) {
