@@ -16,14 +16,6 @@ public let defaultDoneColor = UIColor(red:0.45, green:0.69, blue:0.95, alpha:1.0
 public let customKeyboardBackgroundColor = UIColor(red:59.0/255.0, green:66.0/255.0, blue:71.0/255.0, alpha:1.00)
 public let customKeyboardNumberColor = UIColor(red:242.0/255.0, green:243.0/255.0, blue:243.0/255.0, alpha:1.00)
 
-extension UIScreen {
-    func heightForBottomSafeArea() -> CGFloat {
-        guard let rootView = UIApplication.shared.keyWindow else { return 0 }
-        let bottomInset = rootView.safeAreaInsets.bottom
-        return bottomInset
-    }
-}
-
 /// 键盘样式
 ///
 /// - idcard: 身份证类型
@@ -857,5 +849,13 @@ extension UIImage {
 extension CustomKeyboard: UIInputViewAudioFeedback {
     open var enableInputClicksWhenVisible: Bool {
         return true
+    }
+}
+
+extension UIScreen {
+    func heightForBottomSafeArea() -> CGFloat {
+        guard let rootView = UIApplication.shared.keyWindow else { return 0 }
+        let bottomInset = rootView.safeAreaInsets.bottom
+        return bottomInset
     }
 }
