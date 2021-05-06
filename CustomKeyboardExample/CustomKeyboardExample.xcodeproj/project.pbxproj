@@ -8,27 +8,16 @@
 
 /* Begin PBXBuildFile section */
 		6B182C08227C144500643783 /* CustomKeyboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B182C00227C144400643783 /* CustomKeyboard.swift */; };
-		6B182C09227C144500643783 /* CustomKeyboard.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 6B182C02227C144400643783 /* CustomKeyboard.bundle */; };
-		6B182C0A227C144500643783 /* Keyboard_Backspace@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6B182C03227C144400643783 /* Keyboard_Backspace@2x.png */; };
-		6B182C0B227C144500643783 /* Keyboard_Backspace@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6B182C04227C144400643783 /* Keyboard_Backspace@3x.png */; };
-		6B182C0C227C144500643783 /* Keyboard_DismissKey.png in Resources */ = {isa = PBXBuildFile; fileRef = 6B182C05227C144400643783 /* Keyboard_DismissKey.png */; };
-		6B182C0D227C144500643783 /* Keyboard_DismissKey@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6B182C06227C144400643783 /* Keyboard_DismissKey@2x.png */; };
-		6B182C0E227C144500643783 /* Keyboard_DismissKey@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6B182C07227C144400643783 /* Keyboard_DismissKey@3x.png */; };
 		6B9CDF1D201789B800974C42 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B9CDF1C201789B800974C42 /* AppDelegate.swift */; };
 		6B9CDF1F201789B800974C42 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B9CDF1E201789B800974C42 /* ViewController.swift */; };
 		6B9CDF22201789B800974C42 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6B9CDF20201789B800974C42 /* Main.storyboard */; };
 		6B9CDF24201789B800974C42 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6B9CDF23201789B800974C42 /* Assets.xcassets */; };
 		6B9CDF27201789B800974C42 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6B9CDF25201789B800974C42 /* LaunchScreen.storyboard */; };
+		F1DF4BFE26329FFF003E9C29 /* CustomKeyboard.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F1DF4BFD26329FFF003E9C29 /* CustomKeyboard.xcassets */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		6B182C00227C144400643783 /* CustomKeyboard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomKeyboard.swift; sourceTree = "<group>"; };
-		6B182C02227C144400643783 /* CustomKeyboard.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = CustomKeyboard.bundle; sourceTree = "<group>"; };
-		6B182C03227C144400643783 /* Keyboard_Backspace@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Keyboard_Backspace@2x.png"; sourceTree = "<group>"; };
-		6B182C04227C144400643783 /* Keyboard_Backspace@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Keyboard_Backspace@3x.png"; sourceTree = "<group>"; };
-		6B182C05227C144400643783 /* Keyboard_DismissKey.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Keyboard_DismissKey.png; sourceTree = "<group>"; };
-		6B182C06227C144400643783 /* Keyboard_DismissKey@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Keyboard_DismissKey@2x.png"; sourceTree = "<group>"; };
-		6B182C07227C144400643783 /* Keyboard_DismissKey@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Keyboard_DismissKey@3x.png"; sourceTree = "<group>"; };
 		6B9CDF19201789B800974C42 /* CustomKeyboardExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CustomKeyboardExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6B9CDF1C201789B800974C42 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		6B9CDF1E201789B800974C42 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -36,6 +25,7 @@
 		6B9CDF23201789B800974C42 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		6B9CDF26201789B800974C42 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		6B9CDF28201789B800974C42 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		F1DF4BFD26329FFF003E9C29 /* CustomKeyboard.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = CustomKeyboard.xcassets; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -52,8 +42,8 @@
 		6B182BFE227C144400643783 /* CustomKeyboard */ = {
 			isa = PBXGroup;
 			children = (
+				F1DF4BFC26329FFF003E9C29 /* Resources */,
 				6B182BFF227C144400643783 /* Classes */,
-				6B182C01227C144400643783 /* Resources */,
 			);
 			name = CustomKeyboard;
 			path = ../../CustomKeyboard;
@@ -65,19 +55,6 @@
 				6B182C00227C144400643783 /* CustomKeyboard.swift */,
 			);
 			path = Classes;
-			sourceTree = "<group>";
-		};
-		6B182C01227C144400643783 /* Resources */ = {
-			isa = PBXGroup;
-			children = (
-				6B182C02227C144400643783 /* CustomKeyboard.bundle */,
-				6B182C03227C144400643783 /* Keyboard_Backspace@2x.png */,
-				6B182C04227C144400643783 /* Keyboard_Backspace@3x.png */,
-				6B182C05227C144400643783 /* Keyboard_DismissKey.png */,
-				6B182C06227C144400643783 /* Keyboard_DismissKey@2x.png */,
-				6B182C07227C144400643783 /* Keyboard_DismissKey@3x.png */,
-			);
-			path = Resources;
 			sourceTree = "<group>";
 		};
 		6B9CDF10201789B800974C42 = {
@@ -108,6 +85,14 @@
 				6B9CDF28201789B800974C42 /* Info.plist */,
 			);
 			path = CustomKeyboardExample;
+			sourceTree = "<group>";
+		};
+		F1DF4BFC26329FFF003E9C29 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				F1DF4BFD26329FFF003E9C29 /* CustomKeyboard.xcassets */,
+			);
+			path = Resources;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -169,15 +154,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6B182C0B227C144500643783 /* Keyboard_Backspace@3x.png in Resources */,
 				6B9CDF27201789B800974C42 /* LaunchScreen.storyboard in Resources */,
-				6B182C0E227C144500643783 /* Keyboard_DismissKey@3x.png in Resources */,
-				6B182C09227C144500643783 /* CustomKeyboard.bundle in Resources */,
-				6B182C0A227C144500643783 /* Keyboard_Backspace@2x.png in Resources */,
-				6B182C0D227C144500643783 /* Keyboard_DismissKey@2x.png in Resources */,
-				6B182C0C227C144500643783 /* Keyboard_DismissKey.png in Resources */,
 				6B9CDF24201789B800974C42 /* Assets.xcassets in Resources */,
 				6B9CDF22201789B800974C42 /* Main.storyboard in Resources */,
+				F1DF4BFE26329FFF003E9C29 /* CustomKeyboard.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
