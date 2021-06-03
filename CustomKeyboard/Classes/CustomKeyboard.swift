@@ -625,6 +625,20 @@ open class CustomKeyboard: UIInputView, UITextFieldDelegate, UIGestureRecognizer
             calculate()
         }
         
+        guard let doubleZeroButton = findButton(by: 10) else {
+            fatalError("not found the button with the tag")
+        }
+        guard let zeroButton = findButton(by: 11) else {
+            fatalError("not found the button with the tag")
+        }
+        if currentOperator == "➗" {
+            doubleZeroButton.isEnabled = false
+            zeroButton.isEnabled = false
+        } else {
+            doubleZeroButton.isEnabled = true
+            zeroButton.isEnabled = true
+        }
+        
         switch button.tag {
         case 12 + 1:                  // 除
             currentOperator = "➗"
@@ -657,6 +671,15 @@ open class CustomKeyboard: UIInputView, UITextFieldDelegate, UIGestureRecognizer
             default:
                 finalNumber = 0
             }
+            
+            if finalNumber > 999999999 {
+                finalNumber = 999999999
+            }
+            
+            if finalNumber < -999999999 {
+                finalNumber = -999999999
+            }
+            
             firstResponder()?.text = ""
             firstResponder()?.insertText(String(finalNumber))
             currentOperator = ""
