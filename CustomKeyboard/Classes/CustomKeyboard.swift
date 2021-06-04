@@ -549,6 +549,11 @@ open class CustomKeyboard: UIInputView, UITextFieldDelegate, UIGestureRecognizer
                     firstResponder()?.text = "0"
                 }
                 
+                if let numberStr = firstResponder()?.text {
+                    let number = self.maxminNumber(number: Int(numberStr) ?? 0)
+                    firstResponder()?.text = String(number)
+                }
+                
                 formatTextField()
             }
         }
@@ -672,13 +677,7 @@ open class CustomKeyboard: UIInputView, UITextFieldDelegate, UIGestureRecognizer
                 finalNumber = 0
             }
             
-            if finalNumber > 999999999 {
-                finalNumber = 999999999
-            }
-            
-            if finalNumber < -999999999 {
-                finalNumber = -999999999
-            }
+            finalNumber = maxminNumber(number: finalNumber)
             
             firstResponder()?.text = ""
             firstResponder()?.insertText(String(finalNumber))
@@ -687,6 +686,16 @@ open class CustomKeyboard: UIInputView, UITextFieldDelegate, UIGestureRecognizer
             previousNumber = 0
             
             formatTextField()
+        }
+    }
+    
+    private func maxminNumber(number: Int) -> Int{
+        if number > 999999999 {
+            return 999999999
+        } else if number < -999999999 {
+            return -999999999
+        } else {
+            return number
         }
     }
     
