@@ -549,11 +549,6 @@ open class CustomKeyboard: UIInputView, UITextFieldDelegate, UIGestureRecognizer
                     firstResponder()?.text = "0"
                 }
                 
-                if let numberStr = firstResponder()?.text {
-                    let number = self.maxminNumber(number: Int(numberStr) ?? 0)
-                    firstResponder()?.text = String(number)
-                }
-                
                 formatTextField()
             }
         }
@@ -676,9 +671,7 @@ open class CustomKeyboard: UIInputView, UITextFieldDelegate, UIGestureRecognizer
             default:
                 finalNumber = 0
             }
-            
-            finalNumber = maxminNumber(number: finalNumber)
-            
+                        
             firstResponder()?.text = ""
             firstResponder()?.insertText(String(finalNumber))
             currentOperator = ""
@@ -702,7 +695,7 @@ open class CustomKeyboard: UIInputView, UITextFieldDelegate, UIGestureRecognizer
     @objc func formatTextField() {
         let rawText = firstResponder()?.text?.components(separatedBy: ",").joined() ?? ""
         var newText = String(rawText)
-        textFieldNumberText = newText
+        textFieldNumberText = String(self.maxminNumber(number: Int(String(rawText)) ?? 0))
         var spaceIndex = Array<Int>.init()
         for i in 1 ... newText.count {
             if i % 3 == 0 {
