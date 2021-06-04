@@ -694,8 +694,8 @@ open class CustomKeyboard: UIInputView, UITextFieldDelegate, UIGestureRecognizer
     
     @objc func formatTextField() {
         let rawText = firstResponder()?.text?.components(separatedBy: ",").joined() ?? ""
-        var newText = String(rawText)
-        textFieldNumberText = String(self.maxminNumber(number: Int(String(rawText)) ?? 0))
+        var newText = String(self.maxminNumber(number: Int(String(rawText)) ?? 0))
+        textFieldNumberText = newText
         var spaceIndex = Array<Int>.init()
         for i in 1 ... newText.count {
             if i % 3 == 0 {
