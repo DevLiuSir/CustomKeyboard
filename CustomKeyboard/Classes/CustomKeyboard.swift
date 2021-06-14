@@ -671,15 +671,7 @@ open class CustomKeyboard: UIInputView, UITextFieldDelegate, UIGestureRecognizer
             default:
                 finalNumber = 0
             }
-            
-            if finalNumber > 999999999 {
-                finalNumber = 999999999
-            }
-            
-            if finalNumber < -999999999 {
-                finalNumber = -999999999
-            }
-            
+                        
             firstResponder()?.text = ""
             firstResponder()?.insertText(String(finalNumber))
             currentOperator = ""
@@ -690,9 +682,19 @@ open class CustomKeyboard: UIInputView, UITextFieldDelegate, UIGestureRecognizer
         }
     }
     
+    private func maxminNumber(number: Int) -> Int{
+        if number > 999999999 {
+            return 999999999
+        } else if number < -999999999 {
+            return -999999999
+        } else {
+            return number
+        }
+    }
+    
     @objc func formatTextField() {
         let rawText = firstResponder()?.text?.components(separatedBy: ",").joined() ?? ""
-        var newText = String(rawText)
+        var newText = String(self.maxminNumber(number: Int(String(rawText)) ?? 0))
         textFieldNumberText = newText
         var spaceIndex = Array<Int>.init()
         for i in 1 ... newText.count {
