@@ -521,7 +521,9 @@ open class CustomKeyboard: UIInputView, UITextFieldDelegate, UIGestureRecognizer
             switch sender.tag {
             case 12:                        // 删除
                 handleDelete(button: sender)
-            case 12 + 1, 13 + 1, 14 + 1, 15 + 1:            // 除乘减加
+            case 14 + 1:
+                negativeNumber(button: sender)
+            case 12 + 1, 13 + 1, 15 + 1:            // 除乘减加
                 calculateOperator(button: sender)
             case 16 + 1:            // 隐藏键盘\确定键,辞去第一响应者
                 if currentOperator == "" {
@@ -615,6 +617,15 @@ open class CustomKeyboard: UIInputView, UITextFieldDelegate, UIGestureRecognizer
                 firstResponder()?.text = "0"
             }
             formatTextField()
+        }
+    }
+    
+    private func negativeNumber(button: UIButton) {
+        if previousNumber == 0 {
+            firstResponder()?.text = ""
+            firstResponder()?.insertText("-")
+        } else {
+            calculateOperator(button: button)
         }
     }
     
